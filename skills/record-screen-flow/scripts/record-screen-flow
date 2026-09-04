@@ -1,0 +1,251 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+runtime_base="${XDG_RUNTIME_DIR:-/tmp}"
+state_dir="${runtime_base}/codex-record-screen-flow-$(id -u)"
+pid_file="${state_dir}/pid"
+output_file="${state_dir}/output"
+log_file="${state_dir}/ffmpeg.log"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  record-screen-flow probe
+  record-screen-flow status
+  record-screen-flow stop
+  record-screen-flow start --output PATH [options]
+
+Start options:
+  --target desktop|primary|active-window  Capture target (default: primary)
+  --region WIDTHxHEIGHT+X+Y               Exact X11 region; overrides target
+  --audio none|system|mic                 Audio source (default: none)
+  --fps NUMBER                            Frames per second (default: 30)
+  --max-seconds NUMBER                    Automatic stop limit (default: 900)
+  --display DISPLAY                       X11 display (default: $DISPLAY or :0)
+EOF
+}
+
+fail() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || fail "required command not found: $1"
+}
+
+stored_pid() {
+  if [[ -f "$pid_file" ]]; then
+    tr -cd '0-9' < "$pid_file"
+  fi
+}
+
+is_recorder() {
+  local pid="${1:-}"
+  [[ -n "$pid" ]] || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  [[ -f "$output_file" && -r "/proc/$pid/exe" && -r "/proc/$pid/cmdline" ]] || return 1
+
+  local executable expected arg found="false"
+  executable="$(readlink "/proc/$pid/exe" 2>/dev/null || true)"
+  [[ "${executable##*/}" == "ffmpeg" ]] || return 1
+  expected="$(<"$output_file")"
+  while IFS= read -r -d '' arg; do
+    if [[ "$arg" == "$expected" ]]; then
+      found="true"
+      break
+    fi
+  done < "/proc/$pid/cmdline"
+  [[ "$found" == "true" ]]
+}
+
+probe() {
+  require_command ffmpeg
+  require_command ffprobe
+  require_command xrandr
+
+  local session_type="${XDG_SESSION_TYPE:-unknown}"
+  local display="${DISPLAY:-}"
+  printf 'session_type=%s\n' "$session_type"
+  printf 'display=%s\n' "${display:-unavailable}"
+  [[ "$session_type" != "wayland" ]] || fail "Wayland session detected; this helper supports X11 only"
+  [[ -n "$display" ]] || fail "DISPLAY is not set"
+
+  xrandr --current | sed -n '1p;/ connected/p'
+  if command -v pactl >/dev/null 2>&1; then
+    printf 'default_sink=%s\n' "$(pactl get-default-sink 2>/dev/null || printf unavailable)"
+    printf 'default_source=%s\n' "$(pactl get-default-source 2>/dev/null || printf unavailable)"
+  else
+    printf 'audio=pactl unavailable\n'
+  fi
+}
+
+status() {
+  local pid
+  pid="$(stored_pid)"
+  if is_recorder "$pid"; then
+    printf 'status=recording\npid=%s\n' "$pid"
+    [[ -f "$output_file" ]] && printf 'output=%s\n' "$(<"$output_file")"
+    printf 'log=%s\n' "$log_file"
+    return 0
+  fi
+
+  printf 'status=inactive\n'
+  if [[ -f "$output_file" ]]; then
+    printf 'last_output=%s\n' "$(<"$output_file")"
+  fi
+  return 1
+}
+
+stop_recording() {
+  local pid output
+  pid="$(stored_pid)"
+  if [[ -f "$output_file" ]]; then
+    output="$(<"$output_file")"
+  else
+    output=""
+  fi
+
+  if is_recorder "$pid"; then
+    # ffmpeg handles SIGTERM by writing the MP4 trailer before exiting.
+    kill -TERM "$pid"
+    for _ in $(seq 1 100); do
+      is_recorder "$pid" || break
+      sleep 0.1
+    done
+    if is_recorder "$pid"; then
+      kill -KILL "$pid"
+      printf 'warning: recorder required SIGKILL; verify the output before using it\n' >&2
+    fi
+  fi
+
+  rm -f "$pid_file"
+  printf 'status=stopped\n'
+  [[ -n "$output" ]] && printf 'output=%s\n' "$output"
+  printf 'log=%s\n' "$log_file"
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send 'Screen recording stopped' "${output:-No output path recorded}" >/dev/null 2>&1 || true
+  fi
+}
+
+start_recording() {
+  require_command ffmpeg
+  require_command ffprobe
+  require_command xrandr
+
+  local output=""
+  local target="primary"
+  local region=""
+  local audio="none"
+  local fps="30"
+  local max_seconds="900"
+  local display="${DISPLAY:-:0}"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --output) [[ $# -ge 2 ]] || fail "--output needs a value"; output="$2"; shift 2 ;;
+      --target) [[ $# -ge 2 ]] || fail "--target needs a value"; target="$2"; shift 2 ;;
+      --region) [[ $# -ge 2 ]] || fail "--region needs a value"; region="$2"; shift 2 ;;
+      --audio) [[ $# -ge 2 ]] || fail "--audio needs a value"; audio="$2"; shift 2 ;;
+      --fps) [[ $# -ge 2 ]] || fail "--fps needs a value"; fps="$2"; shift 2 ;;
+      --max-seconds) [[ $# -ge 2 ]] || fail "--max-seconds needs a value"; max_seconds="$2"; shift 2 ;;
+      --display) [[ $# -ge 2 ]] || fail "--display needs a value"; display="$2"; shift 2 ;;
+      -h|--help) usage; exit 0 ;;
+      *) fail "unknown option: $1" ;;
+    esac
+  done
+
+  [[ "${XDG_SESSION_TYPE:-x11}" != "wayland" ]] || fail "Wayland session detected; this helper supports X11 only"
+  [[ -n "$output" ]] || fail "--output is required"
+  [[ "$output" = /* ]] || fail "--output must be an absolute path"
+  [[ "$output" == *.mp4 ]] || fail "--output must end in .mp4"
+  [[ ! -e "$output" ]] || fail "refusing to overwrite existing output: $output"
+  [[ "$fps" =~ ^[1-9][0-9]*$ ]] || fail "--fps must be a positive integer"
+  [[ "$max_seconds" =~ ^[1-9][0-9]*$ ]] || fail "--max-seconds must be a positive integer"
+  [[ "$audio" =~ ^(none|system|mic)$ ]] || fail "--audio must be none, system, or mic"
+  [[ "$target" =~ ^(desktop|primary|active-window)$ ]] || fail "invalid --target"
+
+  local old_pid
+  old_pid="$(stored_pid)"
+  is_recorder "$old_pid" && fail "a recording is already active (PID $old_pid); run status or stop"
+
+  local width height x y
+  if [[ -n "$region" ]]; then
+    [[ "$region" =~ ^([0-9]+)x([0-9]+)\+([0-9]+)\+([0-9]+)$ ]] || fail "invalid --region; expected WIDTHxHEIGHT+X+Y"
+    width="${BASH_REMATCH[1]}"; height="${BASH_REMATCH[2]}"; x="${BASH_REMATCH[3]}"; y="${BASH_REMATCH[4]}"
+  elif [[ "$target" == "desktop" ]]; then
+    local screen_line
+    screen_line="$(xrandr --current | sed -n '1p')"
+    [[ "$screen_line" =~ current[[:space:]]+([0-9]+)[[:space:]]+x[[:space:]]+([0-9]+) ]] || fail "could not determine desktop geometry"
+    width="${BASH_REMATCH[1]}"; height="${BASH_REMATCH[2]}"; x=0; y=0
+  elif [[ "$target" == "primary" ]]; then
+    local primary_line primary_geometry
+    primary_line="$(xrandr --current | awk '/ connected primary / {print; exit}')"
+    primary_geometry="$(printf '%s\n' "$primary_line" | sed -nE 's/.* ([0-9]+x[0-9]+\+[0-9]+\+[0-9]+)( |$).*/\1/p')"
+    [[ "$primary_geometry" =~ ^([0-9]+)x([0-9]+)\+([0-9]+)\+([0-9]+)$ ]] || fail "could not determine primary monitor geometry"
+    width="${BASH_REMATCH[1]}"; height="${BASH_REMATCH[2]}"; x="${BASH_REMATCH[3]}"; y="${BASH_REMATCH[4]}"
+  else
+    require_command xdotool
+    local window_id geometry
+    window_id="$(xdotool getactivewindow)"
+    geometry="$(xdotool getwindowgeometry --shell "$window_id")"
+    x="$(printf '%s\n' "$geometry" | sed -n 's/^X=//p')"
+    y="$(printf '%s\n' "$geometry" | sed -n 's/^Y=//p')"
+    width="$(printf '%s\n' "$geometry" | sed -n 's/^WIDTH=//p')"
+    height="$(printf '%s\n' "$geometry" | sed -n 's/^HEIGHT=//p')"
+    [[ "$width" =~ ^[0-9]+$ && "$height" =~ ^[0-9]+$ && "$x" =~ ^[0-9]+$ && "$y" =~ ^[0-9]+$ ]] || fail "could not determine active-window geometry"
+  fi
+
+  width=$((width - width % 2))
+  height=$((height - height % 2))
+  (( width > 0 && height > 0 )) || fail "capture dimensions must be positive"
+
+  mkdir -p "$(dirname "$output")" "$state_dir"
+  : > "$log_file"
+
+  local -a command
+  command=(ffmpeg -hide_banner -nostdin -loglevel warning -f x11grab -draw_mouse 1 -framerate "$fps" -video_size "${width}x${height}" -i "${display}+${x},${y}")
+
+  if [[ "$audio" != "none" ]]; then
+    require_command pactl
+    local audio_source
+    if [[ "$audio" == "system" ]]; then
+      audio_source="$(pactl get-default-sink).monitor"
+    else
+      audio_source="$(pactl get-default-source)"
+    fi
+    command+=(-f pulse -i "$audio_source" -map 0:v:0 -map 1:a:0 -c:a aac -b:a 160k)
+  else
+    command+=(-map 0:v:0)
+  fi
+
+  command+=(-t "$max_seconds" -c:v libx264 -preset veryfast -crf 22 -pix_fmt yuv420p -movflags +faststart "$output")
+
+  nohup "${command[@]}" >>"$log_file" 2>&1 </dev/null &
+  local recorder_pid=$!
+  printf '%s\n' "$recorder_pid" > "$pid_file"
+  printf '%s\n' "$output" > "$output_file"
+  sleep 0.5
+  if ! is_recorder "$recorder_pid"; then
+    rm -f "$pid_file"
+    sed -n '1,80p' "$log_file" >&2
+    fail "ffmpeg exited before recording began"
+  fi
+
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send 'Screen recording started' "${width}x${height} at ${x},${y}; automatic stop in ${max_seconds}s" >/dev/null 2>&1 || true
+  fi
+  printf 'status=recording\npid=%s\noutput=%s\ngeometry=%sx%s+%s+%s\naudio=%s\nmax_seconds=%s\nlog=%s\n' \
+    "$recorder_pid" "$output" "$width" "$height" "$x" "$y" "$audio" "$max_seconds" "$log_file"
+}
+
+action="${1:-}"
+[[ $# -gt 0 ]] && shift
+case "$action" in
+  probe) [[ $# -eq 0 ]] || fail "probe accepts no options"; probe ;;
+  status) [[ $# -eq 0 ]] || fail "status accepts no options"; status ;;
+  stop) [[ $# -eq 0 ]] || fail "stop accepts no options"; stop_recording ;;
+  start) start_recording "$@" ;;
+  -h|--help|help|'') usage ;;
+  *) usage >&2; fail "unknown action: $action" ;;
+esac

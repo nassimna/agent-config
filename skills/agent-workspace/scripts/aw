@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Resolve the agent-workspace-cli binary and exec it with the given args.
+# Usage:
+#   aw <args...>        run the CLI (e.g. `aw workspace list`)
+#   aw --which          print the resolved binary path and exit
+#
+# Resolution order (first hit wins):
+#   1. $AGENT_WORKSPACE_CLI                    (explicit override, absolute path)
+#   2. agent-workspace-cli on $PATH
+#   3. $AGENT_WORKSPACE_REPO/target/{release,debug}/agent-workspace-cli
+#   4. common install / dev-build locations
+set -euo pipefail
+
+resolve() {
+  if [[ -n "${AGENT_WORKSPACE_CLI:-}" && -x "${AGENT_WORKSPACE_CLI}" ]]; then
+    printf '%s\n' "${AGENT_WORKSPACE_CLI}"; return 0
+  fi
+  if command -v agent-workspace-cli >/dev/null 2>&1; then
+    command -v agent-workspace-cli; return 0
+  fi
+  local candidates=()
+  if [[ -n "${AGENT_WORKSPACE_REPO:-}" ]]; then
+    candidates+=(
+      "${AGENT_WORKSPACE_REPO}/target/release/agent-workspace-cli"
+      "${AGENT_WORKSPACE_REPO}/target/debug/agent-workspace-cli"
+    )
+  fi
+  candidates+=(
+    "${HOME}/.local/bin/agent-workspace-cli"
+    "/usr/local/bin/agent-workspace-cli"
+    "/usr/bin/agent-workspace-cli"
+  )
+  local c
+  for c in "${candidates[@]}"; do
+    [[ -x "${c}" ]] && { printf '%s\n' "${c}"; return 0; }
+  done
+  return 1
+}
+
+if ! bin="$(resolve)"; then
+  cat >&2 <<'EOF'
+agent-workspace-cli not found.
+Set $AGENT_WORKSPACE_CLI to the binary, put it on $PATH, or set
+$AGENT_WORKSPACE_REPO to the source checkout (then `pnpm build:service`).
+EOF
+  exit 127
+fi
+
+if [[ "${1:-}" == "--which" ]]; then
+  printf '%s\n' "${bin}"; exit 0
+fi
+
+exec "${bin}" "$@"

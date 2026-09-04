@@ -1,0 +1,4 @@
+interface:
+  display_name: "Developer Workflow"
+  short_description: "Run a complete, validated development workflow"
+  default_prompt: "Use $developer-workflow to complete this development task end to end."

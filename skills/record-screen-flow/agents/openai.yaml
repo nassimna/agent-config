@@ -1,0 +1,4 @@
+interface:
+  display_name: "Record Screen Flow"
+  short_description: "Record agent-driven desktop and browser flows"
+  default_prompt: "Use $record-screen-flow to record this browser workflow and save the finished video."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "File PR"
+  short_description: "Publish a focused verified pull request"
+  default_prompt: "Use $file-pr to verify this change, commit it, push it, and open a focused pull request."
