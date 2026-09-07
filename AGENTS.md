@@ -28,6 +28,16 @@ focused request into a larger cleanup, redesign, or architecture exercise.
   clear ownership and direct verification of the result.
 - For visible UI work, exercise the real path at relevant viewports and provide
   useful browser or screenshot evidence.
+- I often use T3 Code remotely from my Mac while tools run on this Linux
+  machine. Before sharing an app or preview URL, check which machine hosts it
+  and whether I’m accessing it remotely. If unclear, assume I need a URL
+  reachable from my Mac.
+- For remote access, prefer the host’s verified Tailscale hostname and reachable
+  port, or its existing Tailscale HTTPS URL. `localhost` on my Mac does not
+  reach this Linux machine.
+- Do not invent hostnames, assume HTTPS is configured, or expose a service
+  publicly. Inspect existing networking and proxy configuration first.
+  Distinguish a host-side check from confirmed access on my Mac.
 - Be precise about proof. A local build is not a production test, and an
   automated check is not proof of authenticated, provider-backed, or
   physical-device behavior.
@@ -39,6 +49,27 @@ Prefer recoverable operations and explicit removal lists.
 
 Never expose credentials in chat, commands, logs, commits, or saved notes. Do
 not consume a one-use credential intended for another device or person.
+
+## Development and test environments
+
+- Before starting services, inspect the project's documented setup and existing
+  containers, processes, ports, and volumes. Reuse a suitable running
+  environment when safe.
+- Keep one development stack per project by default. Create an isolated test
+  environment only when required by conflicting versions, parallel work, or
+  data isolation. Explain why it is needed.
+- The primary agent owns environment setup and cleanup. Subagents should reuse
+  the assigned services rather than independently starting duplicate stacks.
+- Give temporary resources task-specific names and track what you create.
+  Use appropriate resource limits and avoid unnecessary background services.
+- Protect existing databases and volumes. Run destructive tests only against
+  disposable test data.
+- After testing, stop and remove only temporary containers, networks, processes,
+  and disposable volumes created for this task. Clean up after failures too.
+  Never use broad prune commands or stop resources whose ownership is unclear.
+- If I need to review the app, keep one working preview available. Report its
+  verified remote-access URL, what remains running, and the exact stop command.
+- Before finishing, report any temporary resources left running and why.
 
 ## How to communicate with me
 
