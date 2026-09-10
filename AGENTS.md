@@ -1,99 +1,82 @@
 # A note from Nassim
 
 I’m Nassim. I use agents for production software, research, deployments, design,
-and system maintenance, often through T3 Code. We work together frequently, so
-I want the experience to feel like working with a careful, capable teammate.
+and system maintenance, often through T3 Code. I value exact scope, simple
+solutions, real evidence, and reversible actions.
 
-I value exact scope, simple solutions, real evidence, and reversible actions.
-Understand what I am trying to achieve and help me finish it, but do not turn a
-focused request into a larger cleanup, redesign, or architecture exercise.
+These preferences apply across agent tools. Use the current tool's actual
+capabilities and environment; do not assume a particular provider, model,
+operating system, browser, or delegation API is available.
 
 ## How I like us to work
 
-- Treat questions, explanations, reviews, reports, audits, and diagnosis as
-  read-only unless I also ask for a change.
-- When I ask you to fix, change, or build something, make the smallest complete
-  change and verify it. Stop before committing, pushing, merging, deploying, or
-  changing external data unless I ask for that action.
-- Take exact labels, named tools, included files, exclusions, “only,” and “do
-  not change” literally.
-- Inspect the real code, environment, or live state before deciding. Prefer
-  existing project patterns and contracts over assumptions.
-- Preserve unrelated work. Do not silently reformat, refactor, revert, stage,
-  commit, or publish files outside the task.
-- Use focused checks first. Separate existing failures from regressions caused
-  by your change, and never run a broad fixer merely as ceremony.
-- Match the effort to the task. One agent should handle ordinary work. Use
-  delegation for genuinely independent breadth or adversarial review, with
-  clear ownership and direct verification of the result.
-- For visible UI work, exercise the real path at relevant viewports and provide
-  useful browser or screenshot evidence.
-- I often use T3 Code remotely from my Mac while tools run on this Linux
-  machine. Before sharing an app or preview URL, check which machine hosts it
-  and whether I’m accessing it remotely. If unclear, assume I need a URL
-  reachable from my Mac.
-- For remote access, prefer the host’s verified Tailscale hostname and reachable
-  port, or its existing Tailscale HTTPS URL. `localhost` on my Mac does not
-  reach this Linux machine.
-- Do not invent hostnames, assume HTTPS is configured, or expose a service
-  publicly. Inspect existing networking and proxy configuration first.
-  Distinguish a host-side check from confirmed access on my Mac.
-- Be precise about proof. A local build is not a production test, and an
-  automated check is not proof of authenticated, provider-backed, or
-  physical-device behavior.
+- Treat questions, reviews, audits, and diagnosis as read-only unless I ask for
+  changes. For implementation, make the smallest complete change and verify it.
+- Commit, push, merge, deploy, or change external data only when I ask.
+- Take exact labels, named tools, included files, exclusions, and “only” literally.
+  Preserve unrelated work; report unrelated problems separately.
+- Inspect real code and state. Reuse existing components, styling, infrastructure,
+  and contracts before introducing alternatives. Use focused checks first and
+  distinguish existing failures from regressions.
+- Validate functionality through the actual app and relevant backend. Label
+  simulations clearly and state what remains untested.
+- Use one agent for ordinary work and delegate useful independent tasks or
+  adversarial review when supported. When the main model is Astra and the tool
+  supports model and effort selection, prefer Astra subagents with
+  explicit low effort; increase it only when the subtask warrants it, rather
+  than inheriting the parent's effort.
+- For UI work, exercise the actual flow at relevant viewports and always leave
+  final-state screenshots I can view. Inspect their readability and verify I can
+  open the evidence before handoff. If capture is blocked, say what remains
+  visually unverified.
+- Reuse development services by default. Avoid duplicate stacks, protect existing
+  data, and clean up task-created temporary resources. Leave one preview running
+  when I need to review it, with its URL and exact stop command.
+- For substantial development work, use the `developer-workflow` skill if available.
+  Its environment procedure also applies whenever starting test or preview
+  services, even for a small task. If unavailable, follow these global principles
+  with the current tool; do not install anything just to satisfy this reference.
 
-This Linux machine may be hosting the T3 Code session we are using. Do not stop
-or replace its processes casually. Before system cleanup, identify ownership,
-active processes, persistent data, and what I explicitly asked to preserve.
-Prefer recoverable operations and explicit removal lists.
+## Remote access and this machine
 
-Never expose credentials in chat, commands, logs, commits, or saved notes. Do
-not consume a one-use credential intended for another device or person.
+I often connect from my Mac while tools run on Linux, but also work locally or
+through other tools. Check the actual execution host and access context. Use
+local URLs only when they are usable from my device; if unclear, assume I need
+remotely reachable URLs. Verify networking and prefer a reachable Tailscale
+address or existing Tailscale HTTPS endpoint when available.
+Do not invent hostnames, assume HTTPS works, or expose services publicly.
+A host-side check does not prove access from my remote device.
 
-## Development and test environments
+Show review text and screenshots in chat or through verified remote links;
+Host-local file paths alone are not a usable remote handoff.
 
-- Before starting services, inspect the project's documented setup and existing
-  containers, processes, ports, and volumes. Reuse a suitable running
-  environment when safe.
-- Keep one development stack per project by default. Create an isolated test
-  environment only when required by conflicting versions, parallel work, or
-  data isolation. Explain why it is needed.
-- The primary agent owns environment setup and cleanup. Subagents should reuse
-  the assigned services rather than independently starting duplicate stacks.
-- Give temporary resources task-specific names and track what you create.
-  Use appropriate resource limits and avoid unnecessary background services.
-- Protect existing databases and volumes. Run destructive tests only against
-  disposable test data.
-- After testing, stop and remove only temporary containers, networks, processes,
-  and disposable volumes created for this task. Clean up after failures too.
-  Never use broad prune commands or stop resources whose ownership is unclear.
-- If I need to review the app, keep one working preview available. Report its
-  verified remote-access URL, what remains running, and the exact stop command.
-- Before finishing, report any temporary resources left running and why.
+Protect the active agent session and its host, including T3 Code when in use.
+Before stopping services or cleaning up,
+identify ownership, persistent data, and what I asked to preserve. Use explicit
+targets and recoverable actions; never broadly prune unknown resources.
+
+Never expose credentials or consume a one-use credential intended for another
+device or person.
 
 ## How to communicate with me
 
-- Keep responses short, direct, and precise by default.
-- Lead with the answer, outcome, or finding.
-- Prefer clear bullet points over long paragraphs.
-- Give a longer explanation only when the task needs it or I ask for detail.
-- Tell me what changed, what you verified, what remains uncertain, and any real
-  risk. Skip long implementation inventories.
-- Do not call something fixed, deployed, safe, or working from an intermediate
-  success. Say exactly which path was tested and which was not.
-- Mention unrelated problems separately instead of fixing them silently.
+- Be short, direct, and precise. Lead with the answer and prefer bullets.
+- Explain more only when needed or requested; skip long implementation inventories.
+- Say what changed, what was tested, and what remains uncertain or risky.
+  Local checks do not prove deployed, authenticated, provider-backed, or
+  physical-device behavior.
 
 ## Words I use
 
-- **Investigate**: diagnose read-only and report the cause with evidence.
-- **Fix**: make and locally verify the smallest correct change; do not publish.
-- **Evidence**: show concrete source, test, browser, deployment, or device proof.
-- **Code-only**: publish code, tests, and required migrations; keep reports,
-  screenshots, logs, and audit files local unless requested.
+- **Investigate / Source-only**: inspect and explain without changing state.
+- **Fix**: implement and locally verify; do not publish.
+- **Evidence**: concrete source, test, browser, deployment, or device proof.
+- **Code-only**: when publishing is requested, include code, tests, and required
+  migrations; keep reports, screenshots, logs, and audits local unless requested.
 - **File PR**: verify the diff, commit, push, open a non-draft PR, and confirm
-  its remote file scope.
-- **Babysit PR**: monitor checks and new reviews until the requested end state;
+  its remote file scope. Never include localhost, machine-local paths, or
+  Tailscale links in PR descriptions; use reviewer-accessible evidence.
+- **Babysit PR**: monitor checks and reviews to the requested end state;
   validate bot findings and prevent scope creep.
 - **Live verify**: test the deployed, authenticated, provider-backed, or real
-  device path rather than substituting local checks.
-- **Source-only**: answer from source and configuration without changing state.
+  device path.

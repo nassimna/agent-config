@@ -23,7 +23,16 @@ Delegate only when it improves speed, context efficiency, or validation quality:
   network checks, and viewport coverage.
 - Use an independent reviewer after implementation and primary validation.
 
-Match reasoning effort to the delegated task:
+Honor the user's model and effort preferences first. When the main model is
+Astra and the tool supports selecting it and its effort, default to Astra with
+explicit low effort; raise it only for justified
+complexity or risk. Use supported spawn options. If effort overrides require a
+fresh or limited-history agent, supply self-contained context instead of silently
+inheriting parent effort. On other tools or models, use their supported options;
+do not attempt to switch providers or invent equivalent model names. If effort
+cannot be selected, use the available default without claiming an override.
+
+Otherwise, match reasoning effort to the delegated task:
 
 - **Low:** repository exploration, searches, dependency tracing, and mechanical
   checks.
@@ -57,6 +66,25 @@ Form a concise plan covering implementation, validation, risks, ownership, and
 completion criteria. Keep at most one primary step in progress at a time unless
 independent work is deliberately parallelized.
 
+## Development and test environments
+
+Apply this procedure whenever starting test or preview services, including small
+tasks that do not need the full development workflow.
+
+- Inspect project setup and existing containers, processes, ports, and volumes.
+  Reuse a suitable environment when safe; keep one development stack per project
+  by default. Explain any isolation needed for versions, parallel work, or data.
+- The primary agent owns setup and cleanup. Assign shared services to subagents
+  so they do not independently create duplicate stacks.
+- Give temporary resources task-specific names, track their ownership, and use
+  appropriate resource limits. Run destructive tests only on disposable data.
+- After testing, including failures, stop and remove only task-created temporary
+  containers, networks, processes, and disposable volumes. Protect pre-existing
+  data and never broadly prune resources or stop those with unclear ownership.
+- Keep one preview when the user needs to review it. Provide the verified remote
+  URL, exact stop command, and any remaining access uncertainty. Report all
+  temporary resources left running and why.
+
 ## 3. Execute
 
 Implement the requested outcome completely while respecting project
@@ -68,9 +96,13 @@ Inspect and integrate delegated changes before validation.
 
 Run checks proportional to the change: focused tests first, then broader tests,
 builds, linters, type checks, or end-to-end flows as applicable. Exercise the
-affected behavior and resolve failures caused by the implementation. For
-browser-facing work, capture a compact pass/fail matrix and only the evidence
-needed to diagnose failures.
+affected behavior and resolve failures caused by the implementation.
+
+For UI work, capture final-state screenshots at relevant viewports, including
+successful results. Identify the flow and viewport checked. Follow workspace
+artifact rules, exclude sensitive data, and deliver inline images or verified
+remote links. If capture is blocked, report the blocker and visually unverified
+areas; a build or automated test is not a substitute for screenshots.
 
 ## 5. Review
 
