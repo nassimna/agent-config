@@ -71,16 +71,27 @@ independent work is deliberately parallelized.
 Apply this procedure whenever starting test or preview services, including small
 tasks that do not need the full development workflow.
 
-- Inspect project setup and existing containers, processes, ports, and volumes.
-  Reuse a suitable environment when safe; keep one development stack per project
-  by default. Explain any isolation needed for versions, parallel work, or data.
+- Inspect project setup and all existing containers, including stopped ones,
+  plus their service versions, ports, and volumes. Reuse the user's shared
+  Postgres, Redis, and other service containers across projects. Start an
+  identified existing stopped container when needed; do not create a new stack.
+- Creating or recreating any container requires explicit user permission.
+  Inspect Compose commands, project scripts, and test tools before running them
+  so they cannot silently provision containers. If a service is missing or
+  incompatible, report the specific requirement and ask before provisioning.
+- Isolate parallel work with task-specific databases, users, or schemas inside
+  existing services. For Redis, use application-supported key prefixes or
+  logical databases and verify that queues and cleanup honor that isolation.
+  Never flush/reset a shared service or apply destructive tests or migrations
+  to another project's data. If safe isolation is unavailable, ask for direction.
 - The primary agent owns setup and cleanup. Assign shared services to subagents
   so they do not independently create duplicate stacks.
 - Give temporary resources task-specific names, track their ownership, and use
   appropriate resource limits. Run destructive tests only on disposable data.
-- After testing, including failures, stop and remove only task-created temporary
-  containers, networks, processes, and disposable volumes. Protect pre-existing
-  data and never broadly prune resources or stop those with unclear ownership.
+- After testing, including failures, remove only confirmed task-owned temporary
+  databases, users, keys, and processes that are no longer needed. Keep shared
+  containers and volumes intact and running. Clean up separately authorized
+  temporary containers only within their approved scope; never broadly prune.
 - Keep one preview when the user needs to review it. Provide the verified remote
   URL, exact stop command, and any remaining access uncertainty. Report all
   temporary resources left running and why.

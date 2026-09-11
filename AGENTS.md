@@ -29,9 +29,14 @@ operating system, browser, or delegation API is available.
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
   visually unverified.
-- Reuse development services by default. Avoid duplicate stacks, protect existing
-  data, and clean up task-created temporary resources. Leave one preview running
-  when I need to review it, with its URL and exact stop command.
+- Use my existing shared service containers (Postgres, Redis, etc.) across
+  projects. You may start an existing stopped container when needed. Creating
+  or recreating any container requires my explicit permission, including through
+  Compose, test tools, or project scripts. Parallel work should use separate
+  databases, users, schemas, or safe namespaces within the existing services.
+  Protect other projects' data and never reset or flush a shared service.
+- Clean up only task-created temporary resources; keep shared services running.
+  Leave one preview when I need to review it, with its URL and exact stop command.
 - For substantial development work, use the `developer-workflow` skill if available.
   Its environment procedure also applies whenever starting test or preview
   services, even for a small task. If unavailable, follow these global principles
