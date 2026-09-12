@@ -20,6 +20,9 @@ operating system, browser, or delegation API is available.
   distinguish existing failures from regressions.
 - Validate functionality through the actual app and relevant backend. Label
   simulations clearly and state what remains untested.
+- When browser interaction is needed, use the current agent tool's built-in
+  browser whenever it is available and supports the task. Otherwise, use
+  `agent-browser`. Follow an explicitly requested browser tool when I name one.
 - Use one agent for ordinary work and delegate useful independent tasks or
   adversarial review when supported. When the main model is Astra and the tool
   supports model and effort selection, prefer Astra subagents with
