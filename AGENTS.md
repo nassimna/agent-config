@@ -32,6 +32,10 @@ operating system, browser, or delegation API is available.
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
   visually unverified.
+- Attach PR images and videos directly to the PR body using
+  `gh pr create --attach` or `gh pr edit --attach`. Never commit or push media
+  into the repository unless I explicitly ask. Verify the uploaded attachments
+  are accessible to reviewers.
 - Use my existing shared service containers (Postgres, Redis, etc.) across
   projects. You may start an existing stopped container when needed. Creating
   or recreating any container requires my explicit permission, including through
@@ -40,10 +44,30 @@ operating system, browser, or delegation API is available.
   Protect other projects' data and never reset or flush a shared service.
 - Clean up only task-created temporary resources; keep shared services running.
   Leave one preview when I need to review it, with its URL and exact stop command.
+- Create new Git worktrees under `~/.t3/worktrees/<project>/<task>` on this
+  machine, and verify the destination is disk-backed. On other hosts, use a
+  disk-backed worktree directory appropriate to that environment. Never put
+  worktrees, dependency installations, or build outputs in `/tmp` or another
+  RAM-backed filesystem. Reserve `/tmp` for small disposable files. Preserve
+  existing worktrees unless I explicitly ask to move or remove them.
 - For substantial development work, use the `developer-workflow` skill if available.
   Its environment procedure also applies whenever starting test or preview
   services, even for a small task. If unavailable, follow these global principles
   with the current tool; do not install anything just to satisfy this reference.
+
+## Branch naming
+
+- Name task branches `<type>/<short-kebab-case-description>` using `feat` for
+  features, `fix` for bugs, `refactor` for restructuring, `perf` for performance,
+  `docs` for documentation, `test` for tests, `style` for formatting-only changes,
+  and `chore` for maintenance. Choose the type from the actual task or PR scope.
+- Before the first authorized push or PR creation, check the actual Git branch.
+  If this task's unpublished branch has an automatic prefix such as `t3code/`,
+  rename it to the convention above with `git branch -m`, checking for collisions
+  first. Verify the resulting branch and worktree status before publishing.
+- Preserve explicitly requested names, existing published branches, and branches
+  with open PRs. Do not move or rename a worktree directory or edit T3 session
+  metadata to change a branch name. This rule does not authorize publishing.
 
 ## Remote access and this machine
 
