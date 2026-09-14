@@ -48,26 +48,38 @@ match the user's goal exactly.
 - Begin the description with the user-visible problem, then briefly explain the
   solution. Do not lead with an implementation inventory.
 - Include focused validation, material risks, anything unverified, and linked
-  issues when available. Always include a screenshot-evidence section using the
-  requirements below; do not wait for another request for screenshots.
+  issues when available. For UI changes, include image/video attachments in the PR
+  body using the requirements below; do not wait for another request for
+  screenshots.
 - Do not merge, close, label, assign, or delete the source branch unless the
   user separately asks.
 
-## Screenshot evidence
+## Image and video evidence
 
 - For UI changes, capture the actual app's final state at relevant viewports.
   Include before/after comparisons when useful, and caption each screenshot
   with the flow, state, and viewport shown. Clearly label simulated data.
 - Open and inspect every image for readability, correct content, and sensitive
   data before attaching it. Retake blurry, stale, or misleading captures.
-- Upload screenshots as PR attachments or use an approved durable location
-  accessible to reviewers, then embed them in the PR description. Never use
-  localhost, machine-local paths, or Tailscale links. Attachments are separate
-  from repository contents: never commit or push evidence to make it accessible
-  without the user's explicit request to include it in the repository.
-- Verify the images and links in the published description, and preserve source
-  captures until delivery is confirmed. Refresh evidence when later changes
-  make it stale.
+- Upload images and videos as GitHub attachments directly in the PR body using
+  `gh pr create --attach` or `gh pr edit <pr-url> --attach`. For example:
+  `gh pr edit <pr-url> --attach '<screenshot-path>#<alt text>' --attach '<video-path>'`.
+  Repeat `--attach` for additional files; do not add alt text to videos.
+  Without a body flag, `gh pr edit --attach` preserves the existing body and
+  appends the attachments. To position media among captions, pass the complete
+  intended description with `--body-file`; local references to attached files
+  are rewritten to uploaded asset URLs. Preserve existing relevant PR content.
+- Keep captions concise and describe the recorded flow. Do not put evidence in
+  a separate comment or commit/push it into the repository. Never use localhost,
+  machine-local paths, or Tailscale links as published evidence URLs.
+- Check the selected `gh pr` command's help for `--attach` support. If unavailable
+  or upload fails, report the exact blocker; do not substitute a repository
+  upload. On partial failure, read the PR back and retry only missing attachments.
+- Inspect videos as well as images for correct content and sensitive data before
+  uploading. Verify the published PR body and rendered attachments are readable
+  and accessible to reviewers. Preserve source captures until delivery is
+  confirmed, and refresh evidence when later changes make it stale.
+- Attachment syntax: https://cli.github.com/manual/gh_pr_edit
 - If capture or upload is blocked, state the exact blocker in the PR and handoff
   and mark visual verification incomplete. Do not claim screenshots were added
   or substitute test counts for them.
@@ -84,7 +96,7 @@ Read the PR back from the hosting service and confirm:
 - title and description
 - exact remote file list and commit set
 - currently available checks
-- screenshot evidence is embedded, readable, and accessible to reviewers, or
+- image/video evidence is attached in the PR body, readable, and accessible to reviewers, or
   explicitly marked blocked or not applicable
 
 Correct an in-scope publication mistake when safe; otherwise stop and report

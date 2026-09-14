@@ -23,26 +23,11 @@ Delegate only when it improves speed, context efficiency, or validation quality:
   network checks, and viewport coverage.
 - Use an independent reviewer after implementation and primary validation.
 
-Honor the user's model and effort preferences first. When the main model is
-Astra and the tool supports selecting it and its effort, default to Astra with
-explicit low effort; raise it only for justified
-complexity or risk. Use supported spawn options. If effort overrides require a
-fresh or limited-history agent, supply self-contained context instead of silently
-inheriting parent effort. On other tools or models, use their supported options;
-do not attempt to switch providers or invent equivalent model names. If effort
-cannot be selected, use the available default without claiming an override.
-
-Otherwise, match reasoning effort to the delegated task:
-
-- **Low:** repository exploration, searches, dependency tracing, and mechanical
-  checks.
-- **Medium:** routine implementation, refactoring, test writing, and ordinary
-  validation.
-- **High:** ambiguous debugging, architecture, migrations, concurrency,
-  security-sensitive work, and independent final review.
-
-Use the lowest effort that can complete the task reliably. Do not raise effort
-merely because the overall request is large.
+Before substantial exploration or delegation, use the `model-routing` skill at
+`~/.agents/skills/model-routing/SKILL.md` for model choices, effort, handoffs,
+escalation, and cost controls. Honor explicit user choices and active runtime
+constraints. Keep model-specific policy in that skill. If it is unavailable,
+use supported capabilities and disclose the missing routing guidance.
 
 Give every subagent a self-contained assignment containing the objective,
 relevant paths and context, scope and file ownership, constraints, expected

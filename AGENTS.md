@@ -23,11 +23,10 @@ operating system, browser, or delegation API is available.
 - When browser interaction is needed, use the current agent tool's built-in
   browser whenever it is available and supports the task. Otherwise, use
   `agent-browser`. Follow an explicitly requested browser tool when I name one.
-- Use one agent for ordinary work and delegate useful independent tasks or
-  adversarial review when supported. When the main model is Astra and the tool
-  supports model and effort selection, prefer Astra subagents with
-  explicit low effort; increase it only when the subtask warrants it, rather
-  than inheriting the parent's effort.
+- For substantial tasks, use the `model-routing` skill at
+  `~/.agents/skills/model-routing/SKILL.md` to choose delegation, models, and
+  effort. Delegate suitable bounded work according to that policy when supported.
+  Handle tiny tasks directly when delegation would add more overhead than value.
 - For UI work, exercise the actual flow at relevant viewports and always leave
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
