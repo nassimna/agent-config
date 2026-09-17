@@ -23,10 +23,10 @@ operating system, browser, or delegation API is available.
 - When browser interaction is needed, use the current agent tool's built-in
   browser whenever it is available and supports the task. Otherwise, use
   `agent-browser`. Follow an explicitly requested browser tool when I name one.
-- For substantial tasks, use the `model-routing` skill at
-  `~/.agents/skills/model-routing/SKILL.md` to choose delegation, models, and
-  effort. Delegate suitable bounded work according to that policy when supported.
-  Handle tiny tasks directly when delegation would add more overhead than value.
+- For substantial tasks, use the `astra-orchestration` skill at
+  `~/.agents/skills/astra-orchestration/SKILL.md`: the lead orchestrates and
+  delegates searches, broad reads, implementation, and validation to workers
+  chosen from its model policy. Handle questions and tiny edits directly.
 - For UI work, exercise the actual flow at relevant viewports and always leave
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains

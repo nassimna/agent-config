@@ -23,11 +23,12 @@ Delegate only when it improves speed, context efficiency, or validation quality:
   network checks, and viewport coverage.
 - Use an independent reviewer after implementation and primary validation.
 
-Before substantial exploration or delegation, use the `model-routing` skill at
-`~/.agents/skills/model-routing/SKILL.md` for model choices, effort, handoffs,
-escalation, and cost controls. Honor explicit user choices and active runtime
-constraints. Keep model-specific policy in that skill. If it is unavailable,
-use supported capabilities and disclose the missing routing guidance.
+Before substantial exploration or delegation, use the `astra-orchestration`
+skill at `~/.agents/skills/astra-orchestration/SKILL.md` for the delegation
+gate, worker briefs, model and effort choices, escalation, and cost controls.
+Honor explicit user choices and active runtime constraints. Keep model-specific
+policy in the `model-routing` skill it references. If it is unavailable, use
+supported capabilities and disclose the missing routing guidance.
 
 Give every subagent a self-contained assignment containing the objective,
 relevant paths and context, scope and file ownership, constraints, expected

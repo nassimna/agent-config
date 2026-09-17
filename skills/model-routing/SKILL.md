@@ -1,6 +1,6 @@
 ---
 name: model-routing
-description: Choose models and reasoning effort for substantial agent tasks and bounded subagents, or maintain the shared routing policy as models change. Use before substantial exploration or implementation and when planning delegation; skip trivial tasks that need no delegation decision.
+description: Shared model and reasoning-effort table for the lead and worker roles, referenced by the astra-orchestration skill. Use directly only to maintain the routing policy and Codex runtime files as models change; for running tasks use astra-orchestration instead.
 ---
 
 # Model Routing

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astra Orchestration"
+  short_description: "Astra plans and delegates; workers search, code, and test"
+  default_prompt: "Use $astra-orchestration to complete this task with Astra as orchestrator only."
