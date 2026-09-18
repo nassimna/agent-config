@@ -23,7 +23,7 @@ When the tool supports these models, select both model and effort explicitly:
 | --- | --- | --- |
 | Repo searches, call sites, existing patterns | gpt-5.6-terra | low |
 | Clearly specified coding and focused tests | gpt-5.6-sol | medium |
-| Implementation with several interacting behaviors | gpt-5.6-sol | high |
+| Implementation with several interacting behaviors | gpt-5.6-sol | medium; high only when the user asks |
 | Repetitive extraction or mechanical transformations | gpt-5.6-luna | low |
 | Requirements, architecture, difficult diagnosis, final acceptance | gpt-6-astra | low; medium when needed |
 
@@ -59,10 +59,12 @@ Codex needs matching runtime settings in addition to this policy:
   `max_concurrent_threads_per_session` limits worker concurrency.
 - `~/.codex/agents/explorer.toml`: repo exploration row above.
 - `~/.codex/agents/worker.toml`: clearly specified coding and focused tests.
-- `~/.codex/agents/complex-worker.toml`: interacting implementation.
+- `~/.codex/agents/complex-worker.toml`: interacting implementation. It sets
+  no effort, so it inherits the medium default; a spawn may pass high only on
+  the user's request.
 - `~/.codex/agents/bulk-worker.toml`: mechanical transformations.
 
-Set both model and effort in every role. When spawning directly through a tool,
+Set model in every role, and effort in every role except complex-worker. When spawning directly through a tool,
 pass both explicitly; use fresh or limited context if overrides require it.
 Model-specific Codex TOML roles are not portable Claude agent definitions.
 On other tools, use supported capabilities and disclose unavailable routing.
