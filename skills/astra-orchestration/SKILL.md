@@ -62,9 +62,8 @@ Use the roles and the model table from `model-routing`, with these rules:
 - Explorer (Terra low) for locating code, call sites, and existing patterns.
 - Worker (Sol medium) is the default for clearly specified coding and focused
   tests and the fallback for anything unclassified.
-- Complex worker (Sol, medium by default) when the brief names several
-  interacting behaviors. Pass `reasoning_effort: high` only when the user asks
-  for it; Astra's own judgment covers the hard decisions, so high is rare.
+- Complex worker (Sol medium) when the brief names several interacting
+  behaviors. Do not raise Sol above medium; Astra covers the hard decisions.
 - Bulk worker (Luna low) for repetitive extraction or mechanical
   transformations. The current Codex catalog tags Luna as multi-agent `v1`
   while the lead runs `v2`, so Codex may reject it as a spawned model. If a
