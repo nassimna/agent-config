@@ -9,11 +9,12 @@ This skill is the shared source of truth for model and effort routing. Honor
 explicit user choices and higher-priority runtime constraints. Loading this skill
 for task execution does not authorize changing machine configuration.
 
-Keep the lead on `gpt-6-astra` at low effort for requirements, architecture,
-difficult diagnosis, integration, and final acceptance; use medium when needed.
-Use the current tool's supported controls. Do not switch providers or silently
-substitute unavailable models. Tiny tasks can stay with the lead when delegation
-would add more cost than value.
+Keep the lead on `gpt-6-astra` at low effort and let it do the work directly;
+use medium only for hard decisions. Never use xhigh, max, or ultra. Use the
+current tool's supported controls. Do not switch providers or silently
+substitute unavailable models. Delegation is for parallelism and long waits,
+not for savings: on DeepSWE v1.1, Astra low solves more tasks than Sol medium
+for a similar per-task cost and in fewer steps than any worker.
 
 ## Delegation policy
 
@@ -21,23 +22,27 @@ When the tool supports these models, select both model and effort explicitly:
 
 | Work | Model | Effort |
 | --- | --- | --- |
-| Repo searches, call sites, existing patterns | gpt-5.6-terra | low |
-| Clearly specified coding and focused tests | gpt-5.6-sol | medium |
-| Implementation with several interacting behaviors | gpt-5.6-sol | medium |
-| Repetitive extraction or mechanical transformations | gpt-5.6-luna | low |
-| Requirements, architecture, difficult diagnosis, final acceptance | gpt-6-astra | low; medium when needed |
+| Broad parallel repository survey | gpt-5.6-terra | low |
+| Simple, fully specified bounded edits and focused tests | gpt-5.6-sol | medium |
+| Implementation chunks with real logic | gpt-5.6-sol | high |
+| Everything else, including all hard decisions | gpt-6-astra | low; medium when needed |
+
+Do not use `gpt-5.6-luna` for any role. On DeepSWE v1.1 it scores 44% at
+high and under 12% at medium or low; at max it scores like Astra low but takes
+about five times more steps, which keeps the lead polling.
 
 - Use Sol medium as the fallback subagent. On other tools, honor supported
   capabilities; report unavailable routing instead of silently substituting.
-- Delegate substantial exploration before loading broad source or logs into
-  the lead's context. Distinguish locating code from resolving uncertain logic.
+- Delegate only independent parallel chunks, long validation runs, or an
+  independent review. The lead reads what the change needs itself.
 - Give workers a compact, self-contained objective, relevant paths, constraints,
   file ownership, acceptance checks, and escalation conditions. Prefer fresh or
   limited context over full-history forks when supported.
 - Return concise findings or changes with file references, checks and results,
   and unresolved decisions. Keep raw search output and full passing logs local.
-- The lead verifies critical evidence and the final diff without repeating the
-  entire investigation. Reuse a worker for follow-ups on the same scope.
+- The lead verifies critical evidence and the final diff. One brief, one
+  report: no follow-up messages while a worker runs, and no interrupting a
+  running worker to relay new input.
 - Keep at most two subagents active by default. Avoid recursive delegation and
   overlapping edits; parallelize only independent work with useful payoff.
 - Escalate to the lead when requirements conflict, an important invariant is
@@ -59,11 +64,10 @@ Codex needs matching runtime settings in addition to this policy:
   `max_concurrent_threads_per_session` limits worker concurrency.
 - `~/.codex/agents/explorer.toml`: repo exploration row above.
 - `~/.codex/agents/worker.toml`: clearly specified coding and focused tests.
-- `~/.codex/agents/complex-worker.toml`: interacting implementation.
-- `~/.codex/agents/bulk-worker.toml`: mechanical transformations.
+- `~/.codex/agents/complex-worker.toml`: implementation chunks with real logic.
+- No Luna role. If a `bulk-worker.toml` exists, keep it disabled.
 
-Set both model and effort in every role. Do not use Sol high; Astra covers
-the hard decisions. When spawning directly through a tool,
+Set both model and effort in every role. When spawning directly through a tool,
 pass both explicitly; use fresh or limited context if overrides require it.
 Model-specific Codex TOML roles are not portable Claude agent definitions.
 On other tools, use supported capabilities and disclose unavailable routing.

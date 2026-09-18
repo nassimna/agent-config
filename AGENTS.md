@@ -24,9 +24,9 @@ operating system, browser, or delegation API is available.
   browser whenever it is available and supports the task. Otherwise, use
   `agent-browser`. Follow an explicitly requested browser tool when I name one.
 - For substantial tasks, use the `astra-orchestration` skill at
-  `~/.agents/skills/astra-orchestration/SKILL.md`: the lead orchestrates and
-  delegates searches, broad reads, implementation, and validation to workers
-  chosen from its model policy. Handle questions and tiny edits directly.
+  `~/.agents/skills/astra-orchestration/SKILL.md`: the lead does the work
+  directly and delegates only independent parallel chunks or long validation
+  runs to workers chosen from its model policy, with one brief and one report.
 - For UI work, exercise the actual flow at relevant viewports and always leave
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
