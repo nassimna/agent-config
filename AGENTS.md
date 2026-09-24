@@ -23,10 +23,6 @@ operating system, browser, or delegation API is available.
 - When browser interaction is needed, use the current agent tool's built-in
   browser whenever it is available and supports the task. Otherwise, use
   `agent-browser`. Follow an explicitly requested browser tool when I name one.
-- For substantial tasks, use the `astra-orchestration` skill at
-  `~/.agents/skills/astra-orchestration/SKILL.md`: the lead does the work
-  directly and delegates only independent parallel chunks or long validation
-  runs to workers chosen from its model policy, with one brief and one report.
 - For UI work, exercise the actual flow at relevant viewports and always leave
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
@@ -52,19 +48,14 @@ operating system, browser, or delegation API is available.
   Protect other projects' data and never reset or flush a shared service.
 - Clean up only task-created temporary resources; keep shared services running.
   Leave one preview when I need to review it, with its URL and exact stop command.
-- Create new Git worktrees under `~/.t3/worktrees/<project>/<task>` on this
-  machine, and verify the destination is disk-backed. On other hosts, use a
-  disk-backed worktree directory appropriate to that environment. Never put
-  worktrees, dependency installations, or build outputs in `/tmp` or another
-  RAM-backed filesystem. Reserve `/tmp` for small disposable files. Preserve
-  existing worktrees unless I explicitly ask to move or remove them.
 - Avoid running duplicate dev stacks or heavy repo-wide commands in parallel.
   Check available memory and existing processes first, use focused commands
   where possible, and stop task-owned processes when finished.
-- For substantial development work, use the `developer-workflow` skill if available.
-  Its environment procedure also applies whenever starting test or preview
-  services, even for a small task. If unavailable, follow these global principles
-  with the current tool; do not install anything just to satisfy this reference.
+- When implementing a coding feature, fix, refactor, or migration, use the
+  `developer-workflow` skill if available, even for small changes. Follow its
+  lifecycle proportionally. Its environment procedure also applies whenever
+  starting test or preview services. If unavailable, follow these global
+  principles with the current tool; do not install anything just for this.
 
 ## Remote access and this machine
 

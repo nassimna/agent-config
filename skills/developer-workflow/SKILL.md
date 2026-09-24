@@ -1,12 +1,14 @@
 ---
 name: developer-workflow
-description: Complete a substantial implementation, bug fix, refactor, or migration through validation and review. Use for end-to-end software changes; do not use for read-only questions, routine inspection, or tiny edits.
+description: Guide the development lifecycle when implementing a coding feature, bug fix, refactor, or migration of any size. Use for code changes; do not use for read-only questions, routine inspection, or documentation-only edits.
 ---
 
 # Developer Workflow
 
-Complete substantial development tasks through the stages below. Adapt the depth
-of each stage to the task while preserving the sequence and outcome.
+Use this skill for code changes of any size. Work through understanding, planning,
+implementation, validation, review, and completion. Scale each stage to the
+change; a small edit needs no elaborate written plan, but still needs focused
+verification and a final review.
 
 ## Delegation
 
@@ -54,8 +56,8 @@ independent work is deliberately parallelized.
 
 ## Development and test environments
 
-Apply this procedure whenever starting test or preview services, including small
-tasks that do not need the full development workflow.
+Apply this procedure whenever starting test or preview services, regardless of
+the task's size.
 
 - Inspect project setup and all existing containers, including stopped ones,
   plus their service versions, ports, and volumes. Reuse the user's shared
