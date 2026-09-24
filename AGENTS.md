@@ -31,6 +31,15 @@ operating system, browser, or delegation API is available.
   final-state screenshots I can view. Inspect their readability and verify I can
   open the evidence before handoff. If capture is blocked, say what remains
   visually unverified.
+- For screenshots shown in chat, use the current tool's native image attachment
+  or supported local-image rendering so I can preview them inline. Do not embed
+  private GitHub attachment URLs as chat images: they may require authentication
+  that the chat renderer does not have. An authenticated download by the agent
+  does not prove that an inline preview works for me. Keep PR attachments for PR
+  reviewers, and deliver a separate chat-viewable image. If a preview fails,
+  switch delivery methods instead of repeating the same inaccessible link; state
+  any remaining preview limitation clearly. Do not make private evidence public
+  just to enable a preview.
 - Attach PR images and videos directly to the PR body using
   `gh pr create --attach` or `gh pr edit --attach`. Never commit or push media
   into the repository unless I explicitly ask. Verify the uploaded attachments
@@ -49,24 +58,13 @@ operating system, browser, or delegation API is available.
   worktrees, dependency installations, or build outputs in `/tmp` or another
   RAM-backed filesystem. Reserve `/tmp` for small disposable files. Preserve
   existing worktrees unless I explicitly ask to move or remove them.
+- Avoid running duplicate dev stacks or heavy repo-wide commands in parallel.
+  Check available memory and existing processes first, use focused commands
+  where possible, and stop task-owned processes when finished.
 - For substantial development work, use the `developer-workflow` skill if available.
   Its environment procedure also applies whenever starting test or preview
   services, even for a small task. If unavailable, follow these global principles
   with the current tool; do not install anything just to satisfy this reference.
-
-## Branch naming
-
-- Name task branches `<type>/<short-kebab-case-description>` using `feat` for
-  features, `fix` for bugs, `refactor` for restructuring, `perf` for performance,
-  `docs` for documentation, `test` for tests, `style` for formatting-only changes,
-  and `chore` for maintenance. Choose the type from the actual task or PR scope.
-- Before the first authorized push or PR creation, check the actual Git branch.
-  If this task's unpublished branch has an automatic prefix such as `t3code/`,
-  rename it to the convention above with `git branch -m`, checking for collisions
-  first. Verify the resulting branch and worktree status before publishing.
-- Preserve explicitly requested names, existing published branches, and branches
-  with open PRs. Do not move or rename a worktree directory or edit T3 session
-  metadata to change a branch name. This rule does not authorize publishing.
 
 ## Remote access and this machine
 
