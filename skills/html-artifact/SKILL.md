@@ -38,7 +38,7 @@ Scale these elements to the task rather than forcing every heading. Label mockup
 
 Prefer self-contained HTML with inline CSS, inline SVG, and only the JavaScript needed for useful interactions. Avoid external fonts, CDNs, and runtime fetches by default so the file remains portable. Use relative paths when supporting assets are necessary.
 
-Use semantic headings, readable typography, a restrained palette, and a clear reading order. Add anchor navigation for long documents; use tables for comparisons and diagrams for relationships. Keep code in escaped `pre`/`code` blocks, never executable script tags. Ensure narrow-screen layouts, keyboard access, visible focus, sufficient contrast, and readable diagram labels. Keep essential content available without JavaScript and include print styles that reveal collapsed or tabbed content.
+Use semantic headings, readable typography, and a clear reading order. Add anchor navigation for long documents; use tables for comparisons and diagrams for relationships. Keep code in escaped `pre`/`code` blocks, never executable script tags. Ensure narrow-screen layouts, keyboard access, visible focus, sufficient contrast, and readable diagram labels. Keep essential content available without JavaScript and include print styles that reveal collapsed or tabbed content.
 
 Use controls only when they aid a real decision. For editable selections or parameters, offer a copy/export action containing the current choices and enough context for a follow-up prompt. Provide selectable text if clipboard access fails. Explain whether edits persist; never imply changes update project files or external systems.
 

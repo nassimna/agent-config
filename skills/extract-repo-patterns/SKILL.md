@@ -13,7 +13,7 @@ same style as the repo, not produce a generic architecture essay.
 
 1. Identify scope
 
-- Confirm the target repo path.
+- Use the current repo unless the user names another path.
 - If the user names a reference repo, inspect both the current repo and the
   reference repo.
 - Decide whether the request is a read-only review or asks for saved guidance.

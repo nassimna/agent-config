@@ -1,2 +1,4 @@
 .skill-lock.json
 *.backup-*
+skills/synced/
+skills/.trash/

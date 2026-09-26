@@ -33,7 +33,7 @@ For browser and app demos, use an isolated background display with its own brows
    - Prepare the complete action sequence before starting and run capture, actions, and stop together so tool orchestration does not create dead time. Wait for visible app readiness, then use brief reading holds. Show navigation through a click or keyboard action rather than an unexplained URL change.
 7. If the recording is interrupted, contaminated by another window, or materially differs from the intended flow, discard it and record a clean take rather than presenting it as finished evidence.
 8. Stop in cleanup even if the flow or browser interaction fails. Never leave the recorder running for the next task.
-9. Use `ffprobe` to confirm nonzero duration, expected dimensions, a video stream, 30 fps unless overridden, and audio only when requested. Scrub representative frames from the beginning, middle, and end to confirm the intended app is readable, the cursor appears during interaction, and no unrelated content entered the capture. Give the user the video path or workspace-required reachable link and a short statement of what it shows.
+9. Use `ffprobe` to confirm nonzero duration, expected dimensions, a video stream, 30 fps unless overridden, and audio only when requested. Scrub representative frames from the beginning, middle, and end to confirm the intended app is readable, the cursor appears during interaction, and no unrelated content entered the capture. Deliver the video through the tool's native media embedding or a verified remote link, not a bare host path, with a short statement of what it shows.
 
 Example shape after resolving the isolated display and its geometry:
 

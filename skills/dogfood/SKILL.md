@@ -15,8 +15,9 @@ that pages load.
 
 ## Establish the scope
 
-- Confirm the target URL, important flows, authenticated roles, relevant
-  viewports, and whether the user wants findings in chat or a saved report.
+- Infer the target URL, important flows, authenticated roles, and relevant
+  viewports from context; ask only if you can't proceed without them. Report
+  findings in chat unless the user asks for a saved report.
 - Treat ordinary QA as read-only. Do not create accounts, submit consequential
   forms, change shared data, purchase anything, or test destructive actions
   unless the user authorized that exact behavior.

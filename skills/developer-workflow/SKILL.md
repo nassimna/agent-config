@@ -1,119 +1,75 @@
 ---
 name: developer-workflow
-description: Guide the development lifecycle when implementing a coding feature, bug fix, refactor, or migration of any size. Use for code changes; do not use for read-only questions, routine inspection, or documentation-only edits.
+description: Enforce the development lifecycle for a coding feature, bug fix, refactor, or migration of any size. Use for code changes; do not use for read-only questions, routine inspection, or documentation-only edits.
 ---
 
 # Developer Workflow
 
-Use this skill for code changes of any size. Work through understanding, planning,
-implementation, validation, review, and completion. Scale each stage to the
-change; a small edit needs no elaborate written plan, but still needs focused
-verification and a final review.
-
-## Delegation
-
-Keep planning, scope division, integration, conflict resolution, and the final
-completion decision in the primary agent. Use subagents only when the user or
-active runtime instructions authorize delegation and it materially improves the
-work.
-
-Delegate only when it improves speed, context efficiency, or validation quality:
-
-- Use a read-focused agent for bounded repository investigation.
-- Use an implementation agent for a clearly owned code change.
-- Use a browser-focused agent for repeated UI flows, screenshots, console or
-  network checks, and viewport coverage.
-- Use an independent reviewer after implementation and primary validation.
-
-Before substantial exploration or delegation, use the `astra-orchestration`
-skill at `~/.agents/skills/astra-orchestration/SKILL.md` for the delegation
-gate, worker briefs, model and effort choices, escalation, and cost controls.
-Honor explicit user choices and active runtime constraints. Keep model-specific
-policy in the `model-routing` skill it references. If it is unavailable, use
-supported capabilities and disclose the missing routing guidance.
-
-Give every subagent a self-contained assignment containing the objective,
-relevant paths and context, scope and file ownership, constraints, expected
-output, and validation criteria. Keep concurrent assignments non-overlapping.
-Use the host agent's supported models, tools, and routing mechanism; do not
-assume provider-specific model names or APIs.
-
-If subagents are unavailable or delegation would cost more than it saves,
-perform the same checkpoints directly and record any reduced independence in
-the final report.
+Every code change passes these gates in order. Scale the effort in each gate to
+the change, but do not skip one. If a later gate exposes a problem, return to the
+gate that owns it.
 
 ## 1. Understand
 
-Inspect repository instructions, relevant code, existing behavior, tests, and
-expected behavior. Resolve important uncertainty before editing. Prefer concise
-evidence with file and symbol references over raw search output.
+Exit when you can state the current behavior, the expected behavior, and the
+files and contracts the change touches, backed by the code, tests, or running
+app.
 
 ## 2. Plan
 
-Form a concise plan covering implementation, validation, risks, ownership, and
-completion criteria. Keep at most one primary step in progress at a time unless
-independent work is deliberately parallelized.
+Exit when the finish line is explicit: the observable result, the checks that
+must pass, and what is out of scope.
 
-## Development and test environments
+## 3. Implement
 
-Apply this procedure whenever starting test or preview services, regardless of
-the task's size.
-
-- Inspect project setup and all existing containers, including stopped ones,
-  plus their service versions, ports, and volumes. Reuse the user's shared
-  Postgres, Redis, and other service containers across projects. Start an
-  identified existing stopped container when needed; do not create a new stack.
-- Creating or recreating any container requires explicit user permission.
-  Inspect Compose commands, project scripts, and test tools before running them
-  so they cannot silently provision containers. If a service is missing or
-  incompatible, report the specific requirement and ask before provisioning.
-- Isolate parallel work with task-specific databases, users, or schemas inside
-  existing services. For Redis, use application-supported key prefixes or
-  logical databases and verify that queues and cleanup honor that isolation.
-  Never flush/reset a shared service or apply destructive tests or migrations
-  to another project's data. If safe isolation is unavailable, ask for direction.
-- The primary agent owns setup and cleanup. Assign shared services to subagents
-  so they do not independently create duplicate stacks.
-- Give temporary resources task-specific names, track their ownership, and use
-  appropriate resource limits. Run destructive tests only on disposable data.
-- After testing, including failures, remove only confirmed task-owned temporary
-  databases, users, keys, and processes that are no longer needed. Keep shared
-  containers and volumes intact and running. Clean up separately authorized
-  temporary containers only within their approved scope; never broadly prune.
-- Keep one preview when the user needs to review it. Provide the verified remote
-  URL, exact stop command, and any remaining access uncertainty. Report all
-  temporary resources left running and why.
-
-## 3. Execute
-
-Implement the requested outcome completely while respecting project
-conventions and the established scope. Preserve unrelated user changes. Divide
-independent work into bounded assignments only when it improves throughput.
-Inspect and integrate delegated changes before validation.
+Exit when the change meets the finish line and the diff contains nothing outside
+the scope.
 
 ## 4. Validate
 
-Run checks proportional to the change: focused tests first, then broader tests,
-builds, linters, type checks, or end-to-end flows as applicable. Exercise the
-affected behavior and resolve failures caused by the implementation.
+Exit when:
 
-For UI work, capture final-state screenshots at relevant viewports, including
-successful results. Identify the flow and viewport checked. Follow workspace
-artifact rules, exclude sensitive data, and deliver inline images or verified
-remote links. If capture is blocked, report the blocker and visually unverified
-areas; a build or automated test is not a substitute for screenshots.
+- the checks for the changed behavior pass; other failures are noted, not
+  investigated;
+- the affected behavior has been exercised through the actual app or entry
+  point;
+- for UI changes, final-state screenshots at relevant viewports exist and the
+  user can view them. A passing build or test does not replace them.
+
+If a check or capture is blocked, record exactly what remains unverified.
 
 ## 5. Review
 
-Review the final diff for correctness, regressions, unintended changes, missing
-validation, security or data-integrity risks, and alignment with the request.
-When delegation is authorized and independent review adds meaningful value,
-give a reviewer the requirements, final diff, and validation evidence. Resolve
-actionable findings and rerun affected checks.
+Exit when the final diff has been reviewed for correctness, regressions,
+unintended changes, missing validation, security or data-integrity risks, and
+code that could be simpler or shorter, and every actionable finding is fixed
+and revalidated or explicitly reported.
 
 ## 6. Complete
 
-Do not claim completion until review is finished and actionable findings are
-resolved and revalidated or explicitly reported. Summarize the outcome,
-important files changed, validation evidence, and anything unverified or
-unresolved.
+Do not claim completion before gates 1–5 have passed. The final report starts
+with anything needed from the user, then the outcome, files changed, validation
+evidence, and anything unverified or unresolved.
+
+## Environment gate
+
+Applies whenever the task starts test or preview services, at any stage.
+
+Before starting:
+
+- Existing containers, including stopped ones, have been checked and a
+  compatible one is reused. A missing or incompatible service is reported to the
+  user before anything is provisioned.
+- Compose files, project scripts, and test tools have been checked so they
+  cannot create or recreate containers without the user's permission.
+- The task has its own database, user, schema, or key prefix inside the shared
+  service, and destructive tests or migrations target only that. If isolation
+  isn't possible, ask before running.
+
+After testing, including on failure:
+
+- Task-owned temporary databases, users, keys, and processes are removed;
+  shared containers and volumes stay running.
+- At most one preview stays running, only when the user needs to review it, and
+  the report gives its verified URL and exact stop command.
+- The report lists every resource left running and why.

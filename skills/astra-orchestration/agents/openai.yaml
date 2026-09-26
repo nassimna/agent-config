@@ -1,4 +1,0 @@
-interface:
-  display_name: "Astra Orchestration"
-  short_description: "Astra does the work at low effort; delegates only parallel chunks"
-  default_prompt: "Use $astra-orchestration to complete this task with Astra working directly and delegating only independent parallel chunks."
