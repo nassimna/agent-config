@@ -1,0 +1,7 @@
+interface:
+  display_name: "GitHub Issue"
+  short_description: "Draft concise GitHub issues with available evidence"
+  default_prompt: "Use $gh-issue to write a short GitHub issue with current behavior, expected behavior, and available evidence."
+
+policy:
+  allow_implicit_invocation: true
