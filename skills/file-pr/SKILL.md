@@ -17,8 +17,12 @@ match the user's goal exactly.
 - Confirm that the diff contains only the intended implementation, tests, and
   required migrations. Preserve unrelated changes.
 - For PRs containing code changes, run `ai-slop-cleanup` on the final task-owned
-  diff before committing or pushing. Reuse the `developer-workflow` pass if that
-  diff is unchanged; review any later code changes and rerun affected checks.
+  diff before committing or pushing, including already committed task changes.
+  Pass along the task's editing permission, starting revision, ownership record,
+  exclusions, and finish stage. Reuse the `developer-workflow` pass while the
+  owned content and relevant callers/contracts are unchanged; committing the
+  same content does not require another pass. Review later edits or changed
+  invariants and rerun affected checks.
   Fix only confirmed findings within the authorized scope and report unresolved
   ones.
 - Never stage, commit, or push screenshots or evidence artifacts (including

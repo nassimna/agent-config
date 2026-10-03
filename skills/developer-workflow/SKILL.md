@@ -15,6 +15,11 @@ Exit when you can state the current behavior, the expected behavior, and the
 files and contracts the change touches, backed by the code, tests, or running
 app.
 
+Record the starting revision, task-owned files or hunks, exclusions, and any
+pre-existing edits affecting them. Keep that ownership record through commits
+and resumes so final review includes committed task changes and preserves other
+work. A small task can keep the record in its existing plan or handoff.
+
 ## 2. Plan
 
 Exit when these are explicit, from the prompt, the code, or the user's global
@@ -48,7 +53,9 @@ If a check or capture is blocked, record exactly what remains unverified.
 
 ## 5. Review
 
-Before completing this gate, run `ai-slop-cleanup` on the final task-owned diff.
+Before completing this gate, run `ai-slop-cleanup` on the final task-owned diff,
+including task commits since the recorded start. Pass the task's editing
+permission, ownership record, exclusions, and authorized finish stage to it.
 Apply its evidence requirements, make the smallest authorized simplifications or
 repairs, and rerun affected checks. Keep this pass within the current workflow
 and preserve unrelated work. Report the pass and any unresolved findings in the
