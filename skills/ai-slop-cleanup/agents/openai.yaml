@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Slop Cleanup"
+  short_description: "Find and simplify unnecessary coding complexity"
+  default_prompt: "Use $ai-slop-cleanup to inspect my current diff and simplify confirmed slop while preserving behavior."
