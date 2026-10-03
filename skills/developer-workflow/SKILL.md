@@ -40,6 +40,12 @@ If a check or capture is blocked, record exactly what remains unverified.
 
 ## 5. Review
 
+Before completing this gate, run `ai-slop-cleanup` on the final task-owned diff.
+Apply its evidence requirements, make the smallest authorized simplifications or
+repairs, and rerun affected checks. Keep this pass within the current workflow
+and preserve unrelated work. Report the pass and any unresolved findings in the
+handoff.
+
 Exit when the final diff has been reviewed for correctness, regressions,
 unintended changes, missing validation, security or data-integrity risks, and
 code that could be simpler or shorter, and every actionable finding is fixed

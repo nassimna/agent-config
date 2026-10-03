@@ -16,6 +16,11 @@ match the user's goal exactly.
   existing PR instead of creating a duplicate.
 - Confirm that the diff contains only the intended implementation, tests, and
   required migrations. Preserve unrelated changes.
+- For PRs containing code changes, run `ai-slop-cleanup` on the final task-owned
+  diff before committing or pushing. Reuse the `developer-workflow` pass if that
+  diff is unchanged; review any later code changes and rerun affected checks.
+  Fix only confirmed findings within the authorized scope and report unresolved
+  ones.
 - Never stage, commit, or push screenshots or evidence artifacts (including
   recordings, validation reports, logs, and audit files) into any repository
   unless the user explicitly asks to include those artifacts in the repository.

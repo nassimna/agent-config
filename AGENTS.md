@@ -51,6 +51,10 @@ capabilities and environment.
   states. Use the actual app for implementation previews.
 - Reuse existing components, styling, infrastructure, and contracts before
   introducing alternatives.
+- At the end of every coding task, run `ai-slop-cleanup` on the task-owned diff
+  before handoff, commit, or push. Simplify confirmed in-scope slop, fix defects
+  covered by the task, and rerun affected checks. Keep read-only requests
+  read-only and report findings outside the authorized scope.
 - Ask before adding project dependencies.
 - For research, cite sources with links and dates, mark claims that are
   unverified or recalled from memory, and say where you looked.
