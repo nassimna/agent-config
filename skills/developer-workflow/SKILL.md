@@ -17,8 +17,16 @@ app.
 
 ## 2. Plan
 
-Exit when the finish line is explicit: the observable result, the checks that
-must pass, and what is out of scope.
+Exit when these are explicit, from the prompt, the code, or the user's global
+defaults:
+
+- the finish line: the observable result and the checks that must pass;
+- what is out of scope;
+- any screenshot, design, chart, log, or error the task describes but didn't
+  attach.
+
+Before implementing, ask in one message for whatever you still can't resolve.
+Don't ask about anything the defaults already cover.
 
 ## 3. Implement
 
