@@ -105,6 +105,12 @@ areas; a build or automated test is not a substitute for screenshots.
 
 ## 5. Review
 
+Before completing this gate, run `ai-slop-cleanup` on the final task-owned diff.
+Apply its evidence requirements, make the smallest authorized simplifications or
+repairs, and rerun affected checks. Keep this pass within the current workflow
+and preserve unrelated work. Report the pass and any unresolved findings in the
+handoff.
+
 Review the final diff for correctness, regressions, unintended changes, missing
 validation, security or data-integrity risks, and alignment with the request.
 When delegation is authorized and independent review adds meaningful value,
