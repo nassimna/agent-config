@@ -115,6 +115,7 @@ capabilities and environment.
 
 ## Words I use
 
+- **Explain**: use simple words, keep it short, and get straight to the point.
 - **Investigate / Source-only**: inspect and explain without changing state.
 - **Fix**: implement and locally verify; do not publish.
 - **Evidence**: concrete source, test, browser, deployment, or device proof.
