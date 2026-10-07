@@ -24,13 +24,39 @@ capabilities and environment.
   task-owned local validation exception below applies. Otherwise take the
   conventional default and say which one you chose.
 - Keep the goal, exclusions, accepted decisions, required outputs, acceptance
-  checks, and authorized finish stage together. Preserve them through revisions
+  checks, validation results, and authorized finish stage together. Preserve them
+  through revisions
   and resumes, and check them before handoff. For long runs, keep this task
   checklist in a file outside the repo or in a git-ignored path, and update it as
   you go.
 - For large audits, migrations, or reviews, split independent parts across
   subagents when available, check each one's evidence before accepting it, and
   finish with one results table.
+
+### Efficiency
+
+- Before a tool call, identify what uncertainty it will resolve. Reuse earlier
+  evidence unless relevant code or external state changed; refresh live state
+  before actions that depend on it.
+- Locate files first, then read relevant sections. Batch independent reads and
+  return concise results; keep full logs local when needed.
+- After a failed tool call, inspect the cause. Retry with corrected input or
+  changed state; avoid repeating the same failing call unchanged.
+- Use event-driven notifications when available instead of repeated status
+  polling. For PR watches, handle current findings, register the watch, and end
+  the turn until an event arrives.
+- Reduce redundant work while preserving required tests, actual-app
+  verification, and evidence. Fewer tool calls alone is not success.
+
+### Communication and alignment
+
+- Before editing, identify the exact app, screen, entity, or PR and what must be
+  preserved. Resolve ambiguities only when they materially change scope,
+  behavior, or authorization.
+- When a request changes, record what is removed and what still applies.
+- Before handoff, compare the result with the accepted decisions and every
+  requested deliverable; passing technical checks alone does not prove
+  completion.
 
 ### Quality
 
@@ -96,6 +122,8 @@ capabilities and environment.
   prune.
 - Run test apps and automation in the background or on an isolated display, with
   playback muted, unless I request a demonstration.
+- For coordinated work, assign one owner to each shared resource and to
+  install/build scheduling.
 - Avoid duplicate dev stacks or heavy repo-wide commands in parallel; check
   memory and existing processes first. Keep worktrees, dependency installs, and
   build outputs on disk-backed storage, never in `/tmp` or another RAM-backed
