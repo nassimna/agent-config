@@ -1,0 +1,6 @@
+interface:
+  display_name: "Performance Loop"
+  short_description: "Measure bottlenecks and verify performance gains"
+  default_prompt: "Use $performance-loop to audit the slow operations in this app and report measured bottlenecks."
+policy:
+  allow_implicit_invocation: true

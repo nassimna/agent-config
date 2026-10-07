@@ -1,0 +1,6 @@
+interface:
+  display_name: "UI/UX Loop"
+  short_description: "Evaluate user journeys with evidence and review"
+  default_prompt: "Use $ui-ux-loop to review this app's important user journeys and report evidence-backed improvements."
+policy:
+  allow_implicit_invocation: true
