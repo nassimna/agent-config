@@ -1,6 +1,6 @@
 ---
 name: html-artifact
-description: Create readable, portable HTML artifacts for implementation plans, design explorations, code explainers, and reviews. Use when the user asks for an HTML plan or artifact, or a visual document with diagrams and mockups. Do not replace explicitly requested Markdown, build a production app, or deploy a site merely to deliver a document.
+description: Create readable, portable HTML artifacts for implementation plans, design explorations, code explainers, and reviews, then synchronize them to Folio for hosted delivery. Use when the user asks for an HTML plan or artifact, or a visual document with diagrams and mockups. Honor explicit local-only requests. Do not replace requested Markdown, build a production app, or deploy a separate site merely to deliver a document.
 ---
 
 # HTML Artifact
@@ -46,6 +46,6 @@ Use controls only when they aid a real decision. For editable selections or para
 
 Open the actual file in the available built-in browser, otherwise use agent-browser. Inspect desktop and narrow-screen rendering, exercise navigation and every added interaction, and check for overflow, clipped labels, broken links, missing assets, and console errors. Check print rendering when print support matters. Capture readable final-state screenshots and provide evidence the user can open. If browser verification is blocked, state what remains unverified.
 
-Deliver the artifact through the environment's attachment or preview capability when available. In a remote session, a host-local path alone is insufficient: use a verified existing remote delivery route or explain the access limitation. Follow environment procedures before starting any preview service. Do not publish, upload to a third party, commit, or push without authorization.
+Deliver the canonical Folio URL as the review link. Inline previews or attachments may accompany it. Keep the local HTML as the editable source. If Folio sync fails, report the failure and the previous hosted revision accurately; a local preview alone does not complete hosted delivery. Follow environment procedures before starting any preview service. This user's configured default is private Folio delivery: after each completed revision, use [preserve-html-artifact](../preserve-html-artifact/SKILL.md) to upload or update the artifact and return its canonical live URL in chat. Pass the current project, thread ID and readable thread title. Preserve the uploader manifest so revisions keep the same artifact ID and URL. Private links ask the user to sign in. Explicit local-only/no-upload requests take precedence; public sharing still requires explicit intent. Commit, push, separate site deployment, and uploads to other services require their own authorization.
 
 Briefly report what the artifact contains, what was checked, and any unresolved decisions. When implementation or verification is subsequently requested, read the approved artifact and its linked context before proceeding.

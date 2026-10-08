@@ -1,0 +1,4 @@
+interface:
+  display_name: "Folio artifact sync"
+  short_description: "Keep HTML reviews current at one private Folio URL"
+  default_prompt: "Use $preserve-html-artifact to sync this HTML artifact with its project and thread, preserving its URL and returning the live link."

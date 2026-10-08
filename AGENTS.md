@@ -15,6 +15,12 @@ capabilities and environment.
   changes. For implementation, make the smallest complete change and verify it.
 - Commit, push, merge, deploy, or change external data only when I ask, apart
   from task-owned local validation setup and cleanup allowed below.
+- HTML review artifacts use `html-artifact` and `preserve-html-artifact` by
+  default. My standing Folio workflow authorizes uploading new artifacts and
+  syncing completed revisions as private Previews. Keep one stable URL per
+  artifact, include its project and thread, and return the live URL in chat.
+  Preserve my Keep status and sharing choice; explicit local-only, no-upload,
+  or public-sharing instructions take precedence.
 - Take exact labels, named tools, included files, exclusions, and "only" literally.
   Preserve unrelated work; report unrelated problems separately.
 - When a step doesn't need my input, keep going; put status notes in the same

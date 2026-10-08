@@ -12,7 +12,7 @@ link_path() {
   target_dir="$(dirname -- "$target_path")"
   mkdir -p -- "$target_dir"
 
-  if [[ -L "$target_path" ]] &&
+  if [[ -e "$target_path" || -L "$target_path" ]] &&
     [[ "$(readlink -f -- "$target_path")" == "$(readlink -f -- "$source_path")" ]]; then
     printf 'ok      %s\n' "$target_path"
     return
