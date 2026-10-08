@@ -127,9 +127,10 @@ error and UI states. Follow the environment gate before starting services;
 do not provision dependencies or shared infrastructure without authorization.
 State exactly what source inspection or isolated tests leave unverified.
 
-Review the final diff against the original contract. Stop when the confirmed
-in-scope findings are addressed and relevant checks pass; do not keep hunting
-for optional rewrites or chase a deletion percentage.
+For automatic use, run one final cleanup pass after implementation and focused
+validation. Review the final diff against the original contract. Stop when the
+confirmed in-scope findings are addressed and relevant checks pass; do not keep
+hunting for optional rewrites or chase a deletion percentage.
 
 Record the reviewed revision, owned files/hunks, outstanding local edits, checks,
 and unresolved findings in the task handoff or existing checklist. Reuse the pass
@@ -137,7 +138,18 @@ only while those changes and relevant callers/contracts remain unchanged.
 Committing unchanged content does not invalidate the pass; later code edits or
 changed invariants require review of the affected portion and its checks.
 
-Report a compact findings/results table when multiple items exist:
+Always include a short cleanup result in the final task handoff:
+
+- **Found:** confirmed findings, or "no actionable slop found," and reviewed scope.
+- **Changed:** simplifications or authorized repairs made, or "none."
+- **Checked:** checks actually run and their results; state source-only review,
+  checks not run, and remaining verification limits where applicable.
+
+Reading the skill or announcing a planned pass is not a completed review. Reuse
+existing task evidence when it still applies; do not repeat unchanged checks or
+create a separate report just to satisfy this handoff.
+
+Use a compact findings/results table when multiple findings need explanation:
 
 | Location / category | Evidence and cost | Remedy / status | Verification |
 | --- | --- | --- | --- |
