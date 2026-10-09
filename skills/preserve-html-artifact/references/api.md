@@ -28,8 +28,8 @@ Tokens can call:
 Keys are UUIDs and scoped by token owner. Tokens cannot list the library, read
 private HTML/files, edit metadata, change existing visibility/retention, delete,
 restore, invite, or manage accounts/tokens. Those routes require a verified
-browser session. An optional Origin header must exactly match the app origin.
-Omit it for server-to-server calls. Redirects must not forward credentials.
+browser session. For writes, an optional Origin header must exactly match the app origin.
+Omit it for server-to-server calls. GET sync lookups do not enforce Origin. Redirects must not forward credentials.
 
 ## Stable content sync
 
@@ -136,9 +136,13 @@ content was cached; previously downloaded copies cannot be recalled.
 The authenticated browser session can list `GET /api/artifacts`, edit metadata
 with `PATCH /api/artifacts/:id`, set retention with
 `PATCH /api/artifacts/:id/status` (`{"status":"kept"}` or `preview`), restore
-with `POST /api/artifacts/:id/restore` (`{"revision":N}`), and delete with
+with `POST /api/artifacts/:id/restore` (`{"revision":N}` using the current content
+revision), and delete with
 `DELETE /api/artifacts/:id`. Metadata PATCH requires a title and defaults omitted
 legacy metadata fields; use the dedicated retention endpoint for Keep actions.
+
+Restoration swaps the current and previous content versions and increments the
+content revision. It preserves the owner's metadata, sharing and Keep status.
 
 Preview cleanup uses DELETE with `?previewBefore=MILLISECONDS`, limited to the
 confirmed selection. The server atomically checks Preview status and last
@@ -153,7 +157,7 @@ Application errors return `{"error":"message"}`. Provider failures may differ.
 | --- | --- |
 | 400 | Correct metadata, paths, expected revision or file count. |
 | 401 | Set up a valid token privately, or sign in for owner-only actions. |
-| 403 | Correct Origin headers or expired signed capabilities. |
+| 403 | Correct an untrusted Origin, supply a token when Origin is absent, or refresh expired signed capabilities. |
 | 404 | Missing sync key/artifact/file, or another user's private resource. |
 | 409 | Reconcile changed/deleted content or a preview kept/updated before cleanup. |
 | 413 | Reduce the bundle to fit the file/request limits. |

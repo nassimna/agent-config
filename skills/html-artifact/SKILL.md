@@ -40,11 +40,41 @@ Prefer self-contained HTML with inline CSS, inline SVG, and only the JavaScript 
 
 Use semantic headings, readable typography, and a clear reading order. Add anchor navigation for long documents; use tables for comparisons and diagrams for relationships. Keep code in escaped `pre`/`code` blocks, never executable script tags. Ensure narrow-screen layouts, keyboard access, visible focus, sufficient contrast, and readable diagram labels. Keep essential content available without JavaScript and include print styles that reveal collapsed or tabbed content.
 
+## Visual quality
+
+Every artifact should look deliberately designed, including audits and technical
+reports. Choose a restrained palette, clear type hierarchy and consistent spacing
+that suit the content; avoid a wall of dense tables or unstyled browser defaults.
+
+- Standalone and Folio pages need a centered reading area with a sensible maximum
+  width, 24–40px desktop page gutters and 16–20px phone gutters. Leave 24–40px
+  between sections and 16–24px inside panels; text must never touch a panel edge.
+- Use readable body text (usually 14–16px, line-height 1.5–1.7), shorter prose
+  lines and enough space around headings, figures and captions. Compact means
+  economical, not cramped. Give table cells 12–16px padding and clear row grouping.
+- On phones, turn wide comparisons into stacked entries or scroll only the table
+  region. Long paths and labels must wrap without widening the whole page.
+- Use visual emphasis to guide decisions: a brief lead, clear evidence/status
+  labels, and relevant diagrams or screenshots. Do not add decorative metrics,
+  gradients, repeated cards or controls just to make a report seem sophisticated.
+- Match the host's light/dark theme for inline delivery. For portable pages,
+  provide a coherent light/dark palette without requiring a network request.
+
+When the native inline renderer requires a transparent background and zero outer
+padding, keep that outer frame flush and put breathing room inside the content
+sections or panels. Keep a separate portable layout with page gutters for Folio;
+the inline host's framing rules must not make the hosted page edge-to-edge.
+
 Use controls only when they aid a real decision. For editable selections or parameters, offer a copy/export action containing the current choices and enough context for a follow-up prompt. Provide selectable text if clipboard access fails. Explain whether edits persist; never imply changes update project files or external systems.
 
 ## Verify and deliver
 
 Open the actual file in the available built-in browser, otherwise use agent-browser. Inspect desktop and narrow-screen rendering, exercise navigation and every added interaction, and check for overflow, clipped labels, broken links, missing assets, and console errors. Check print rendering when print support matters. Capture readable final-state screenshots and provide evidence the user can open. If browser verification is blocked, state what remains unverified.
+
+Judge the final screenshots, not just the CSS: check visible gutters, panel and
+table padding, heading rhythm, text density and contrast at desktop and phone
+widths. Preview both the inline version and the actual portable/Folio version
+when delivering both; fix cramped or visually unfinished layouts before upload.
 
 Deliver the canonical Folio URL as the review link. Inline previews or attachments may accompany it. Keep the local HTML as the editable source. If Folio sync fails, report the failure and the previous hosted revision accurately; a local preview alone does not complete hosted delivery. Follow environment procedures before starting any preview service. This user's configured default is private Folio delivery: after each completed revision, use [preserve-html-artifact](../preserve-html-artifact/SKILL.md) to upload or update the artifact and return its canonical live URL in chat. Pass the current project, thread ID and readable thread title. Preserve the uploader manifest so revisions keep the same artifact ID and URL. Private links ask the user to sign in. Explicit local-only/no-upload requests take precedence; public sharing still requires explicit intent. Commit, push, separate site deployment, and uploads to other services require their own authorization.
 

@@ -28,6 +28,9 @@ configuration file without changing the normal configuration.
 
 ## Generate, check, sync
 
+The helper requires Python 3.9+, Git and HTTPS access to Folio. Git is used for
+project context and local manifest ignore rules, including outside a repository.
+
 1. Create or revise the HTML using `html-artifact`. Check its layout and relevant
    interactions using the available native browser before delivery.
 2. Identify the project and current conversation. Use the repository/project
@@ -44,8 +47,9 @@ python3 SKILL_DIR/scripts/upload.py /absolute/path/review.html \
   --thread 'CURRENT_THREAD_ID' --thread-title 'Artifact workflow'
 ```
 
-For relative assets, add `--root /absolute/path/artifact-folder`. It includes
-all non-hidden regular files within that root. Read [the API reference](references/api.md)
+For relative assets, keep the project/thread arguments and add
+`--root /absolute/path/artifact-folder`. It includes all non-hidden regular files
+within that root. Read [the API reference](references/api.md)
 for file limits, preview restrictions, direct integrations and errors.
 
 The helper saves `.folio-sync.json` beside the HTML and adds local Git ignore
