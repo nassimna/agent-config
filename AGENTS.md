@@ -110,22 +110,36 @@ capabilities and environment.
 
 ### Shared machine
 
-- Use my existing shared service containers (Postgres, Redis, etc.); you may
-  start a stopped one. Creating or recreating any container, including through
-  Compose, test tools, or project scripts, requires my explicit permission. Never
-  reset or flush a shared service or touch another project's data.
+- Prefer my existing shared service containers (Postgres, Redis, etc.); you may
+  start a stopped one. You may create or recreate containers as needed for the
+  requested task, including through Compose, test tools, or project scripts.
+  Preserve persistent data and configuration. Never reset or flush a shared
+  service or touch another project's data.
 - Task-owned local validation setup and cleanup within existing services is
-  allowed. Publication, new containers or project dependencies, changes to
+  allowed. Publication, new project dependencies, changes to
   shared/customer state, and destructive changes to pre-existing resources still
   require approval.
 - Verify actual datastore and process targets before testing or cleanup. Track
   exact task-created resources. Apply the same ownership boundaries to commands
   you recommend.
+- Decide when a dev or test server is needed and start it without asking me,
+  including in a new worktree. This is standing authorization for local server
+  startup and the container creation or recreation needed for the requested
+  task. Reuse a compatible server for that worktree when available; otherwise
+  choose an unused port, start the server, and track its process and URL.
 - Clean up only task-created resources and processes; keep shared services
   running. Before stopping or removing anything, check for persistent data and
   what I asked to preserve, and protect the active agent session and its host,
   including T3 Code. Use explicit targets and recoverable actions; never broadly
   prune.
+- Track the PID or process group and listening port of every dev server you
+  start. After verification and before handoff, stop its task-owned process tree
+  and confirm its processes have exited and its port is released. Clean up on
+  failure or cancellation whenever execution remains available; use launcher
+  cleanup hooks when available. Never stop a server started by another task.
+- Leave a dev server running only when I explicitly request an ongoing preview.
+  Report its verified URL and exact stop command. Shared Postgres, Redis, and
+  other service containers stay running after task cleanup.
 - Run test apps and automation in the background or on an isolated display, with
   playback muted, unless I request a demonstration.
 - For coordinated work, assign one owner to each shared resource and to
