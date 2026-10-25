@@ -48,21 +48,35 @@ capabilities and environment.
   return concise results; keep full logs local when needed.
 - After a failed tool call, inspect the cause. Retry with corrected input or
   changed state; avoid repeating the same failing call unchanged.
+- For browser automation, follow the current tool's tab, connection, and support
+  checks. After two failures on the same step, use a permitted supported fallback
+  or report the verification gap; do not keep retrying or just increase timeouts.
+  Preserve the signed-in browser profile.
 - Use event-driven notifications when available instead of repeated status
-  polling. For PR watches, handle current findings, register the watch, and end
-  the turn until an event arrives.
+  polling. Give each PR watch one owner; handle current findings, register the
+  watch, and end the turn until an event arrives. Keep unchanged status silent;
+  do not repeatedly re-register a watch while the same host failure persists.
+- For batches, fix the eligible inventory, blocked items, required finish stage,
+  and minimum sufficient evidence at intake. Track source ready, PR published,
+  validated, deployed, and accepted separately; keep optional follow-ups out of
+  the current batch.
+- Use lightweight local checks for routine thresholds; involve an agent when
+  sustained conditions require investigation or an authorized action.
 - Reduce redundant work while preserving required tests, actual-app
   verification, and evidence. Fewer tool calls alone is not success.
 
 ### Communication and alignment
 
-- Before editing, identify the exact app, screen, entity, or PR and what must be
-  preserved. Resolve ambiguities only when they materially change scope,
-  behavior, or authorization.
+- Before substantial work, state the exact app, screen, entity, or PR, requested
+  change, what must be preserved, required deliverables, and authorized finish
+  stage. Inspect an existing implementation as the reference when applicable.
+  Resolve ambiguities only when they materially change scope, behavior, or
+  authorization.
 - When a request changes, record what is removed and what still applies.
-- Before handoff, compare the result with the accepted decisions and every
-  requested deliverable; passing technical checks alone does not prove
-  completion.
+- Before handoff, compare the actual result with the original request, accepted
+  corrections, required integrated journey, and every requested deliverable.
+  Complete them or report concrete blockers; passing tests, a completed thread,
+  or a published PR alone does not prove task completion.
 
 ### Quality
 
@@ -81,6 +95,10 @@ capabilities and environment.
 - Verify the affected journey in the actual app, from its normal entry point
   through the result, including relevant loading, empty, error, and language
   states. Use the actual app for implementation previews.
+- Before repeating a UI pattern across screens, verify one representative
+  result in the actual app. Before recording a long walkthrough, check a short
+  sample for a visible single cursor, a page transition, and synchronized
+  narration when requested.
 - Reuse existing components, styling, infrastructure, and contracts before
   introducing alternatives.
 - At the end of every coding task, run `ai-slop-cleanup` on the task-owned diff
@@ -142,8 +160,13 @@ capabilities and environment.
   other service containers stay running after task cleanup.
 - Run test apps and automation in the background or on an isolated display, with
   playback muted, unless I request a demonstration.
-- For coordinated work, assign one owner to each shared resource and to
-  install/build scheduling.
+- For coordinated work, assign one owner to each shared resource, including
+  interactive consoles, and to install/build/deployment scheduling. Queue access
+  or use separate sessions before parallel work starts.
+- Before installing dependencies, check whether the checkout already has a usable
+  install matching its manifests, lockfile, runtime, package-manager version, and
+  install options. Reuse compatible installs and existing package caches; do not
+  reinstall or force a rebuild without a concrete need.
 - Avoid duplicate dev stacks or heavy repo-wide commands in parallel; check
   memory and existing processes first. Keep worktrees, dependency installs, and
   build outputs on disk-backed storage, never in `/tmp` or another RAM-backed
