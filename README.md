@@ -11,7 +11,8 @@ git clone git@github.com:nassimna/agent-config.git ~/.agents
 
 The installer links:
 
-- `~/.codex/AGENTS.md` to this repository's `AGENTS.md`
+- `~/.codex/AGENTS.md` and existing `~/.codex-t3/*/AGENTS.md` profiles to this
+  repository's `AGENTS.md`
 - `~/.claude/CLAUDE.md` to this repository's `CLAUDE.md`
 - every directory under `skills/` into `~/.claude/skills/`
 
@@ -55,3 +56,31 @@ assets and conflict handling.
 Keep this repository free of credentials, histories, sessions, caches, logs,
 machine-specific settings, and one-use tokens. Review `git diff --cached` before
 every commit.
+
+## FFF terminal search on Linux
+
+Agents prefer [fff-cli](https://github.com/magnusmalm/fff-cli) when the `fff`
+binary is available on their PATH; no MCP server is required. This is a separate
+third-party CLI built on FFF. The verified source revision is
+`8b9930ee3ca0e76df5542a089f3ab7314009a54d` (build with its committed Cargo.lock).
+Install the release binary under `~/.local/bin/fff`. Keep source and Cargo build
+outputs on disk-backed storage.
+
+From the current checkout or worktree:
+
+```bash
+fff index --force
+fff search 'authentication' --json
+fff grep 'validateSession' --json
+fff grep -e 'validate(Session|Token)' --json
+```
+
+Rebuild after changing files or switching branches. This CLI reuses disk indexes;
+its watcher does not continuously publish them to search commands. Do not rely on
+`fff watch`. Use `rg`/`find` when freshness or coverage is uncertain, and verify
+negative or exhaustive results with `rg`. Add `.fff/` to the current worktree's
+local Git exclude file, not a project commit. Each worktree has its own index.
+
+Run `./install.sh` again after creating a T3 Codex profile. Restart existing agent
+sessions to load the updated global instructions. The installer links guidance;
+it does not install FFF, start watchers, or change provider configuration.

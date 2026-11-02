@@ -46,6 +46,18 @@ capabilities and environment.
   before actions that depend on it.
 - Locate files first, then read relevant sections. Batch independent reads and
   return concise results; keep full logs local when needed.
+- When `fff` is installed, prefer its terminal CLI for repository file discovery
+  and indexed code search: `fff search QUERY --json` and
+  `fff grep PATTERN --json` (`-e` for regex). Scope to the current worktree with
+  `-C PATH` and known directories; read relevant source before editing.
+- Run `fff index --force` in that worktree before its first indexed search in a
+  task, and again after file edits, creates, deletes, renames, or branch changes.
+  Do not rely on this CLI's `fff watch` for index freshness. Keep `.fff/` out of
+  commits using the worktree's local Git exclude file.
+- Use `rg`/`find` when FFF is unavailable, freshness or coverage is uncertain,
+  files are ignored or unindexed, or exhaustive/exact results are required.
+  FFF ranks and limits results; confirm absence with `rg` before concluding that
+  code does not exist. Do not replace `rg` or `find` with shell aliases.
 - After a failed tool call, inspect the cause. Retry with corrected input or
   changed state; avoid repeating the same failing call unchanged.
 - For browser automation, follow the current tool's tab, connection, and support

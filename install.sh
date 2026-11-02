@@ -28,6 +28,11 @@ link_path() {
 }
 
 link_path "$repo_dir/AGENTS.md" "$user_home/.codex/AGENTS.md"
+
+for codex_profile in "$user_home"/.codex-t3/*; do
+  [[ -d "$codex_profile" ]] || continue
+  link_path "$repo_dir/AGENTS.md" "$codex_profile/AGENTS.md"
+done
 link_path "$repo_dir/CLAUDE.md" "$user_home/.claude/CLAUDE.md"
 
 for skill_path in "$repo_dir"/skills/*; do
