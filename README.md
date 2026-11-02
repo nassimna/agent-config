@@ -63,24 +63,36 @@ Agents prefer [fff-cli](https://github.com/magnusmalm/fff-cli) when the `fff`
 binary is available on their PATH; no MCP server is required. This is a separate
 third-party CLI built on FFF. The verified source revision is
 `8b9930ee3ca0e76df5542a089f3ab7314009a54d` (build with its committed Cargo.lock).
-Install the release binary under `~/.local/bin/fff`. Keep source and Cargo build
-outputs on disk-backed storage.
+Install the native release binary under `~/.local/libexec/fff`, then run
+`./install.sh` to link the managed `~/.local/bin/fff` launcher. Keep source and
+Cargo build outputs on disk-backed storage.
 
 From the current checkout or worktree:
 
 ```bash
-fff index --force
 fff search 'authentication' --json
 fff grep 'validateSession' --json
 fff grep -e 'validate(Session|Token)' --json
 ```
 
-Rebuild after changing files or switching branches. This CLI reuses disk indexes;
-its watcher does not continuously publish them to search commands. Do not rely on
-`fff watch`. Use `rg`/`find` when freshness or coverage is uncertain, and verify
-negative or exhaustive results with `rg`. Add `.fff/` to the current worktree's
-local Git exclude file, not a project commit. Each worktree has its own index.
+The launcher checks Git's tracked/untracked file inventory and file metadata before
+searches. It rebuilds on first use or after changes, reuses an unchanged index,
+and locks builds/searches per worktree. Agents do not run indexing commands.
+This is automatic indexing on demand; the first query after changes pays the
+refresh cost. No persistent watcher or extra Python packages are needed.
+
+Use `rg`/`find` outside Git repositories, across submodules, or when freshness,
+coverage, or exhaustive results matter. Confirm negative results with `rg`.
+The launcher excludes `.fff/` through local Git configuration. Do not use the
+native CLI's `fff watch`; it does not continuously publish its disk index.
 
 Run `./install.sh` again after creating a T3 Codex profile. Restart existing agent
 sessions to load the updated global instructions. The installer links guidance;
-it does not install FFF, start watchers, or change provider configuration.
+it does not download the native FFF binary, start watchers, or change provider
+configuration.
+
+Verify automatic freshness with the installed native binary:
+
+```bash
+python3 -B -m unittest discover -s tests -p 'test_fff.py' -v
+```

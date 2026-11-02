@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Refresh fff-cli's disk index automatically before repository searches."""
+
+import argparse
+import fcntl
+import hashlib
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+
+def git(root, *args):
+    return subprocess.check_output(["git", "-C", str(root), *args])
+
+
+def signature(root):
+    paths = git(root, "ls-files", "--cached", "--others", "--exclude-standard", "-z")
+    digest = hashlib.sha256()
+    for name in sorted(set(paths.split(b"\0")) - {b""}):
+        path = root / os.fsdecode(name)
+        try:
+            stat = path.stat()
+        except FileNotFoundError:
+            continue
+        digest.update(name + b"\0")
+        digest.update(f"{stat.st_mtime_ns}:{stat.st_ctime_ns}:{stat.st_size}".encode())
+    return digest.hexdigest()
+
+
+def main():
+    native = Path.home() / ".local/libexec/fff"
+    args = sys.argv[1:]
+    parser = argparse.ArgumentParser(add_help=False, allow_abbrev=False)
+    parser.add_argument("-C", "--directory", default=os.getcwd())
+    parser.add_argument("-n", "--max-results")
+    parser.add_argument("--frecency-db")
+    parser.add_argument("-h", "--help", action="store_true")
+    parser.add_argument("-V", "--version", action="store_true")
+    for flag in ("--json", "--debug"):
+        parser.add_argument(flag, action="store_true")
+    options, remaining = parser.parse_known_args(args)
+    if options.help or options.version or not remaining or remaining[0] in {
+        "index", "watch", "completions", "filter", "--filter",
+    }:
+        os.execv(native, [str(native), *args])
+
+    root = Path(os.fsdecode(git(options.directory, "rev-parse", "--show-toplevel")).strip())
+    exclude = Path(os.fsdecode(git(root, "rev-parse", "--path-format=absolute", "--git-path", "info/exclude")).strip())
+    exclude.parent.mkdir(parents=True, exist_ok=True)
+    current = exclude.read_text() if exclude.exists() else ""
+    if "/.fff/" not in current.splitlines():
+        with exclude.open("a") as file:
+            file.write("\n/.fff/\n")
+
+    index = root / ".fff"
+    index.mkdir(exist_ok=True)
+    with (index / "auto-index.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        stamp = index / "auto-index.signature"
+        before = signature(root)
+        cached = stamp.read_text() if stamp.exists() else None
+        if cached != before or not all((index / name).exists() for name in ("files.bin", "bigram.bin", "manifest.bin")):
+            subprocess.run([str(native), "-C", str(root), "index", "--force"], check=True)
+            if signature(root) != before:
+                print("fff: files changed while indexing; retry the search or use rg", file=sys.stderr)
+                return 2
+            stamp.write_text(before)
+        return subprocess.run([str(native), *args]).returncode
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except (OSError, subprocess.CalledProcessError) as error:
+        print(f"fff: automatic indexing failed: {error}; use rg/find", file=sys.stderr)
+        sys.exit(2)

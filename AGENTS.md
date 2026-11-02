@@ -50,10 +50,10 @@ capabilities and environment.
   and indexed code search: `fff search QUERY --json` and
   `fff grep PATTERN --json` (`-e` for regex). Scope to the current worktree with
   `-C PATH` and known directories; read relevant source before editing.
-- Run `fff index --force` in that worktree before its first indexed search in a
-  task, and again after file edits, creates, deletes, renames, or branch changes.
-  Do not rely on this CLI's `fff watch` for index freshness. Keep `.fff/` out of
-  commits using the worktree's local Git exclude file.
+- The managed `fff` launcher refreshes the index automatically when repository
+  files change and reuses it otherwise. Call search/grep directly; do not run
+  `fff index --force` for routine searches or start `fff watch`. The launcher
+  excludes `.fff/` locally and serializes index builds and searches per worktree.
 - Use `rg`/`find` when FFF is unavailable, freshness or coverage is uncertain,
   files are ignored or unindexed, or exhaustive/exact results are required.
   FFF ranks and limits results; confirm absence with `rg` before concluding that

@@ -40,4 +40,8 @@ for skill_path in "$repo_dir"/skills/*; do
   link_path "$skill_path" "$user_home/.claude/skills/$(basename -- "$skill_path")"
 done
 
+if [[ -x "$user_home/.local/libexec/fff" ]]; then
+  link_path "$repo_dir/scripts/fff" "$user_home/.local/bin/fff"
+fi
+
 printf 'Agent configuration is installed.\n'
