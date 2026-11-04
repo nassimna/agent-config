@@ -26,10 +26,9 @@ that pages load.
 
 ## Choose the browser
 
-- In T3 Code, use its attached preview/browser tools first.
-- Otherwise use the active harness's product-native browser when available.
-- Use `agent-browser` only when the user requests it or no suitable native
-  browser is available. Load its current CLI instructions before operating it.
+- Use `agent-browser` unless the user explicitly requests another browser
+  integration. Load its skill and current CLI instructions before operating it.
+- If blocked, report the blocker instead of silently switching tools.
 - Reuse an existing authenticated session when allowed; do not assume a fresh
   browser profile shares the user's cookies.
 

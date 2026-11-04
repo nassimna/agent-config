@@ -42,9 +42,9 @@ original criteria; do not weaken them or drop checks to obtain completion.
 ## Explore, evaluate, repeat
 
 1. Enter the app through normal navigation and attempt the user's actual task.
-   Prefer the active harness's native browser. In T3, check preview status and
-   open the preview if necessary before selecting a fallback. Reuse an approved
-   authenticated session and existing dev stack when available. Assign one
+   Use `agent-browser` unless the user explicitly requests another browser
+   integration; report blockers instead of silently switching tools. Reuse an
+   approved authenticated session and existing dev stack when available. Assign one
    browser owner and hand it over between exploration and evaluator passes;
    do not drive the same tab concurrently.
 2. Check action discoverability, hidden prerequisites, understandable labels,

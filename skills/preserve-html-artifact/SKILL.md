@@ -32,7 +32,8 @@ The helper requires Python 3.9+, Git and HTTPS access to Folio. Git is used for
 project context and local manifest ignore rules, including outside a repository.
 
 1. Create or revise the HTML using `html-artifact`. Check its layout and relevant
-   interactions using the available native browser before delivery.
+   interactions using `agent-browser` before delivery, unless the user explicitly
+   requests another browser integration.
 2. Identify the project and current conversation. Use the repository/project
    name as the category, the stable conversation ID as `--thread`, and a short
    readable conversation title as `--thread-title`. If an ID is unavailable,

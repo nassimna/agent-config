@@ -52,8 +52,9 @@ invalidate affected results after code, workload, or measurement conditions chan
 ## Measure, isolate, evaluate, repeat
 
 1. Reproduce the slow operation. For web journeys, enter through normal app
-   navigation and use the harness's native browser first. Capture available
-   performance traces, request waterfalls, or server/query timings. If a tool
+   navigation and use `agent-browser` unless the user explicitly requests
+   another browser integration. Capture available performance traces, request
+   waterfalls, or server/query timings. If a tool
    cannot expose the needed measurement, report the limitation and use available
    evidence; do not infer performance from screenshots or code size.
 2. Attribute the measured delay to a specific bottleneck before proposing a

@@ -60,10 +60,16 @@ capabilities and environment.
   code does not exist. Do not replace `rg` or `find` with shell aliases.
 - After a failed tool call, inspect the cause. Retry with corrected input or
   changed state; avoid repeating the same failing call unchanged.
-- For browser automation, follow the current tool's tab, connection, and support
-  checks. After two failures on the same step, use a permitted supported fallback
-  or report the verification gap; do not keep retrying or just increase timeouts.
-  Preserve the signed-in browser profile.
+- Use `agent-browser` for all browser automation, including UI validation, QA,
+  research requiring browser interaction, and recordings. Read its skill and
+  current CLI instructions before use. Use another browser integration only
+  when I explicitly request it; do not choose T3 preview or a Chrome extension
+  merely because it is available. If agent-browser is blocked, report the
+  blocker instead of silently switching tools.
+- Follow agent-browser's session and connection checks. After two failures on
+  the same step, inspect the cause and use a supported agent-browser approach
+  or report the verification gap; do not repeat unchanged calls or just increase
+  timeouts. Preserve the signed-in browser profile.
 - Use event-driven notifications when available instead of repeated status
   polling. Give each PR watch one owner; handle current findings, register the
   watch, and end the turn until an event arrives. Keep unchanged status silent;

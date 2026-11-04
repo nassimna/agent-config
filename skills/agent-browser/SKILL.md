@@ -1,6 +1,6 @@
 ---
 name: agent-browser
-description: Automate websites or Electron apps with agent-browser. Use when the user explicitly requests agent-browser or when browser interaction is needed and the active harness has no product-native browser; do not replace available T3 Code preview tools unless the user asks.
+description: Use agent-browser for all browser automation, including UI validation, QA, browser research, recordings, and supported Electron apps. Use another browser integration only when the user explicitly requests it.
 allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*)
 ---
 
@@ -8,6 +8,9 @@ allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*)
 
 Fast browser automation CLI for AI agents. Chrome/Chromium via CDP with
 accessibility-tree snapshots and compact `@eN` element refs.
+
+Use this tool even when T3 preview or Chrome extension tools are available.
+If blocked, report the blocker; do not silently switch browser integrations.
 
 Install: `npm i -g agent-browser && agent-browser install`
 
