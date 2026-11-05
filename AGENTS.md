@@ -84,7 +84,7 @@ capabilities and environment.
   inputs. Reuse passing results while those inputs and the environment remain
   unchanged; treat equivalent commands as one check. After edits, rerun only
   affected checks. Before an expensive check, identify the unresolved risk it
-  will verify. Preserve required repository checks, actual-app verification,
+  will verify. Preserve required non-test checks, actual-app verification,
   and evidence. Fewer tool calls alone is not success.
 
 ### Communication and alignment
@@ -107,13 +107,15 @@ capabilities and environment.
   parameters nobody asked for, error handling or fallbacks for cases that can't
   happen, compatibility shims, or comments that restate the code. Prefer editing
   existing code over adding new files or layers.
-- Tests: add or update only the tests that cover the behavior you changed,
-  usually one or a few focused cases. No exhaustive edge-case suites and no
-  tests for code you didn't change. Run only those tests and the checks for the
-  files you touched, not the full suite, unless I ask. Batch expensive checks
-  after a coherent implementation pass; repeat affected checks when relevant
-  changes or failures justify it. If you notice other failures, mention them in
-  one line; don't fix or investigate them.
+- Verification: choose the smallest reliable way to prove the changed behavior,
+  using the actual app, focused checks, or temporary scripts outside the repo.
+  Do not add or update automated test files in the codebase, or run unit,
+  integration, or end-to-end test suites, unless I explicitly ask. Existing test
+  files are not a standing instruction to run them. Preserve existing tests
+  and CI test gates unless I ask to change them. Keep temporary verification
+  scripts and artifacts out of commits. Batch expensive checks after a coherent
+  edit pass and repeat only when relevant inputs change. Report unrelated
+  failures without fixing or investigating them.
 - Verify the affected journey in the actual app, from its normal entry point
   through the result, including relevant loading, empty, error, and language
   states. Use the actual app for implementation previews.
@@ -217,8 +219,9 @@ capabilities and environment.
 - **Investigate / Source-only**: inspect and explain without changing state.
 - **Fix**: implement and locally verify; do not publish.
 - **Evidence**: concrete source, test, browser, deployment, or device proof.
-- **Code-only**: when publishing is requested, include code, tests, and required
-  migrations; keep reports, screenshots, logs, and audits local unless requested.
+- **Code-only**: when publishing is requested, include implementation files and
+  required migrations; include test changes only when explicitly requested.
+  Keep reports, screenshots, logs, and audits local unless requested.
 - **File PR**: use the `file-pr` skill.
 - **Babysit PR**: monitor checks and reviews to the requested end state;
   validate bot findings and prevent scope creep.
