@@ -142,6 +142,11 @@ capabilities and environment.
   embed private GitHub attachment URLs in chat (they need auth). If a preview
   fails, switch methods instead of resending, and do not make private evidence
   public just to enable a preview.
+- For every UI change, always include screenshots or a short recording showing
+  the changed result in the actual app in the final handoff, even when I do not
+  ask for evidence. Show it in chat or through verified accessible links. If
+  actual-app verification is blocked, state the blocker and mark the UI
+  unverified; do not claim verification without evidence.
 - Verify the exact preview URL, login, assets, and interactions. Keep the preview
   available through review or provide a usable portable copy.
 - Reconcile work items with the current implementation. Include the problem,
