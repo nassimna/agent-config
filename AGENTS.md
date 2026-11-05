@@ -80,8 +80,12 @@ capabilities and environment.
   the current batch.
 - Use lightweight local checks for routine thresholds; involve an agent when
   sustained conditions require investigation or an authorized action.
-- Reduce redundant work while preserving required tests, actual-app
-  verification, and evidence. Fewer tool calls alone is not success.
+- Track completed validation in task notes: command, scope, result, and relevant
+  inputs. Reuse passing results while those inputs and the environment remain
+  unchanged; treat equivalent commands as one check. After edits, rerun only
+  affected checks. Before an expensive check, identify the unresolved risk it
+  will verify. Preserve required repository checks, actual-app verification,
+  and evidence. Fewer tool calls alone is not success.
 
 ### Communication and alignment
 
