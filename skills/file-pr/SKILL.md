@@ -10,8 +10,9 @@ match the user's goal exactly.
 
 ## Before publishing
 
-- Read the repository instructions and inspect the current branch, worktree,
-  remotes, status, and diff against the intended base.
+- Reuse repository instructions and task notes already in context; load missing
+  or changed guidance. Refresh the current branch, worktree, remotes, status,
+  and diff against the intended base before publishing.
 - Check whether a pull request already exists for the branch. Update the
   existing PR instead of creating a duplicate.
 - Confirm that the diff contains only the intended implementation, tests, and
@@ -30,9 +31,14 @@ match the user's goal exactly.
   unless the user explicitly asks to include those artifacts in the repository.
   A request to file a PR, capture evidence, or attach screenshots does not grant
   that permission. Keep these artifacts outside the repository by default.
-- Run the smallest reliable checks for the changed surface. Do not introduce
-  broad formatter churn or mislabel an existing baseline failure as a
-  regression.
+- Reuse passing checks and actual-app evidence while the relevant code,
+  configuration, dependencies, runtime, and verification target are unchanged.
+  Committing or pushing unchanged content does not invalidate those results.
+- When validation is missing, stale, failed, or incomplete, choose and run the
+  smallest reliable checks needed to verify the affected behavior. Do not ask
+  the user to select routine checks. Respect their test-suite and test-file
+  restrictions, preserve required hooks and CI gates, and keep unrelated
+  failures separate. Do not introduce broad formatter churn.
 - Inspect staged content for credentials, generated noise, accidental binaries,
   and unrelated files before committing.
 
@@ -56,6 +62,11 @@ match the user's goal exactly.
 - Open a non-draft PR unless the user requests a draft.
 - Begin the description with the user-visible problem, then briefly explain the
   solution. Do not lead with an implementation inventory.
+- Write from the final diff and recorded verification, not the conversation's
+  chronology or abandoned approaches. Follow required repository templates and
+  body validators while keeping their sections concise and relevant. For a
+  simple change, a short problem/change paragraph and verification are enough
+  unless the repository requires more structure.
 - Include focused validation, material risks, anything unverified, and linked
   issues when available. For UI changes, include image/video attachments in the PR
   body using the requirements below; do not wait for another request for
@@ -109,5 +120,13 @@ Read the PR back from the hosting service and confirm:
   explicitly marked blocked or not applicable
 
 Correct an in-scope publication mistake when safe; otherwise stop and report
-it. Finish with concise bullets containing the PR link, commit, files or scope,
-checks run, and any remaining risk.
+it. For a publish-only request, return the PR link promptly once the remote
+contents and required evidence are verified. Report the current CI state;
+do not wait for CI completion or start a new CI/review repair cycle solely
+because a PR was filed. If the user also requested monitoring, merge readiness,
+or a merge, continue that authorized work and follow the environment's watch
+instructions. Pending checks must not be described as passing, and required
+merge checks must not be bypassed.
+
+Finish with concise bullets containing the PR link, commit, files or scope,
+checks performed or reused, and any remaining risk.
