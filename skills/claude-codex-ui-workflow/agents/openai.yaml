@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude/Codex UI Workflow"
+  short_description: "Claude designs UI and UX; Codex implements it"
+  default_prompt: "Use $claude-codex-ui-workflow to design this UI change with Claude and implement it with Codex."

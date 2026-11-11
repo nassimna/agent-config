@@ -80,6 +80,20 @@ original criteria; do not weaken them or drop checks to obtain completion.
    performance check when a UI change could affect loading or responsiveness;
    move broader optimization work to performance-loop.
 
+For the applicable journey, verify that:
+
+- Defaults match their stated source and remain editable.
+- Optional inputs do not block the earliest useful outcome.
+- Back navigation, recoverable errors, and login preserve appropriate work.
+- Progress and availability reflect actual state.
+- Prices disclose billing periods and total commitments.
+- Declining, cancelling, or leaving uses clear, neutral actions.
+
+Attach these checks to the existing journey criteria and coverage ledger.
+Exercise relevant interactions; screenshots alone cannot prove them.
+Report conversion and human usability improvements as hypotheses unless
+supported by measurements.
+
 ## Continue or finish
 
 Before handing off, check the contract and ledger. A supported external

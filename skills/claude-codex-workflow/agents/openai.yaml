@@ -1,0 +1,6 @@
+interface:
+  display_name: "Claude/Codex Workflow"
+  short_description: "Claude explores and recommends; Codex executes"
+  default_prompt: "Use $claude-codex-workflow to settle the approach with Claude and execute it with Codex."
+policy:
+  allow_implicit_invocation: true
