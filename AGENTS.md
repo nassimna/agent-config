@@ -60,12 +60,14 @@ capabilities and environment.
   code does not exist. Do not replace `rg` or `find` with shell aliases.
 - After a failed tool call, inspect the cause. Retry with corrected input or
   changed state; avoid repeating the same failing call unchanged.
-- Use `agent-browser` for all browser automation, including UI validation, QA,
-  research requiring browser interaction, and recordings. Read its skill and
-  current CLI instructions before use. Use another browser integration only
-  when I explicitly request it; do not choose T3 preview or a Chrome extension
-  merely because it is available. If agent-browser is blocked, report the
-  blocker instead of silently switching tools.
+- My standing, explicit browser choice is `agent-browser` for all browser work
+  and checks, including UI validation, QA, research requiring browser interaction,
+  and recordings. Where T3 routing allows another browser at the user's request,
+  this is that request. Apply this choice to delegated browser work too. Read
+  its skill and current CLI instructions before use. Use another integration
+  only when I explicitly request it for the current task; availability alone is
+  not a request. If agent-browser is blocked, report the blocker instead of
+  silently switching tools.
 - Follow agent-browser's session and connection checks. After two failures on
   the same step, inspect the cause and use a supported agent-browser approach
   or report the verification gap; do not repeat unchanged calls or just increase
@@ -86,6 +88,47 @@ capabilities and environment.
   affected checks. Before an expensive check, identify the unresolved risk it
   will verify. Preserve required non-test checks, actual-app verification,
   and evidence. Fewer tool calls alone is not success.
+
+### Model routing
+
+- My default execution model is `gpt-6.1-terra`. Use **Low** effort for bounded
+  jobs such as filing a PR from completed work, running selected checks and
+  reporting results, taking screenshots, and recording a defined browser flow.
+  Use **Medium** for unfamiliar browser journeys, exploratory QA, and judging
+  loading, error, empty, or language states. Honor any model, effort, or provider
+  I explicitly choose for the current task.
+- Keep planning, deciding what needs verification, complex code changes,
+  diagnosing failures, and consequential merge/deployment decisions with the
+  primary reasoning model. Escalate ambiguous results, unexpected states, or
+  repeated failures from Terra Low to Medium or the primary agent.
+- This is standing authorization to delegate these bounded execution jobs to
+  Terra. Use the environment's model-routing tools with the model and effort
+  set explicitly. In T3 Code, use `delegate_task` when the requested model or
+  settings differ from the current agent; put effort in `target.options`.
+  Resolve the configured Codex provider through the available model catalog,
+  preserve my account/provider choice, and report unavailable routing instead
+  of silently substituting another model or account.
+- Delegate a complete job, not each click, command, screenshot, or tool call.
+  Keep trivial isolated calls in the current agent when a handoff would add
+  more overhead. Give the worker the exact scope, relevant instructions,
+  existing verification evidence, authorized actions, and acceptance criteria.
+  Keep one owner for each browser session, console, and shared resource, and
+  verify the worker's evidence before accepting its completion report.
+- Model routing does not expand authorization or relax verification. Preserve
+  `agent-browser`, required UI evidence, valid-check reuse, test restrictions,
+  CI gates, and publication/data-change boundaries. A routed worker may run
+  missing focused checks within those rules; it must not skip them for speed.
+- Claude leads genuinely open-ended judgment and Codex executes the agreed
+  approach; neither is universally better. When the approach is unresolved and
+  judgment or creativity is central, automatically use `claude-codex-workflow`
+  at `~/.agents/skills/claude-codex-workflow/SKILL.md`. For new UI
+  and UX work, use `claude-codex-ui-workflow` at
+  `~/.agents/skills/claude-codex-ui-workflow/SKILL.md` instead
+  (Claude designs, Codex implements). This is standing authorization for those
+  skills' cross-provider delegation; it adds no authority beyond the request.
+  The originating agent keeps task ownership and the primary-model duties
+  above. Routine tasks, clear fixes, simple questions, straightforward
+  implementation, and small established-pattern UI changes keep normal routing.
 
 ### Communication and alignment
 
@@ -206,8 +249,16 @@ capabilities and environment.
 
 ## How to communicate with me
 
-- Be short, direct, and precise. Lead with the answer, prefer bullets, and skip
-  long implementation inventories.
+- Be short, direct, and precise, in every model's replies and delegated final
+  reports. Lead with the answer or outcome. Routine replies and handoffs default
+  to one short paragraph or 3-5 short bullets; go longer only for detailed
+  reports, requested depth, or genuinely complex results.
+- Keep progress updates to 1-2 sentences with a new result, blocker, or next
+  step, not a tool diary. Don't restate the request, plan, earlier updates, or
+  the same conclusion. Skip implementation inventories, boilerplate headings,
+  exhaustive file/command lists, and unsolicited explanations or offers. Link
+  authorized existing detail instead of pasting it; don't create docs to hide
+  length. Brevity never reduces reasoning, completeness, or validation.
 - Start with anything you need from me, then say what changed, what was tested,
   and what remains uncertain or risky. Label simulations clearly. Local checks
   do not prove deployed, authenticated, provider-backed, or physical-device

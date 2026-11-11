@@ -10,6 +10,8 @@ Fast browser automation CLI for AI agents. Chrome/Chromium via CDP with
 accessibility-tree snapshots and compact `@eN` element refs.
 
 Use this tool even when T3 preview or Chrome extension tools are available.
+Nassim's shared guidance explicitly selects agent-browser; where host routing
+allows a user-requested browser, apply that selection to checks and delegates too.
 If blocked, report the blocker; do not silently switch browser integrations.
 
 Install: `npm i -g agent-browser && agent-browser install`
