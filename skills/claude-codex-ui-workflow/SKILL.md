@@ -30,6 +30,21 @@ Follow the ownership, delegation, brief, and boundary rules in
 originating agent delegates design to Claude when it runs on Codex, and
 production implementation to Codex when it runs on Claude.
 
+## Multiple UI samples or sets
+
+When the user requests multiple UI samples, sets, variants, or design
+directions, research internet references before designing the alternatives.
+Carry this requirement into the delegated design brief. Inspect actual screens
+or images; search snippets and remembered examples do not establish visual
+research. Prefer references relevant to the product, journey, and constraints.
+
+For each direction, include source links and a short explanation of the layout,
+hierarchy, or interaction patterns adapted from them. Make alternatives
+meaningfully distinct; color swaps alone do not establish different directions.
+Adapt references to the existing product and the user's requested scope.
+Honor explicit no-internet instructions. If access is blocked, disclose which
+references could not be inspected and label any resulting designs as unresearched.
+
 ## Design handoff
 
 Claude's handoff must be actionable for implementation without follow-up:

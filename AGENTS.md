@@ -175,6 +175,12 @@ capabilities and environment.
 - Ask before adding project dependencies.
 - For research, cite sources with links and dates, mark claims that are
   unverified or recalled from memory, and say where you looked.
+- When I ask for multiple UI samples, sets, variants, or design directions,
+  always research internet references and inspect their visual content before
+  proposing them. Link the references behind each direction and explain what
+  you adapted. Apply this requirement to delegated design work too. Honor an
+  explicit no-internet instruction; if access is blocked, report the gap rather
+  than presenting unresearched designs as reference-backed.
 - For design work, avoid these defaults unless I ask for them: cream or
   off-white backgrounds, italic accent words in headings, numbered "01 / 02 / 03"
   section labels, monospace labels, and pill-shaped buttons.
