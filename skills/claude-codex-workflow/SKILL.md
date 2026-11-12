@@ -76,8 +76,9 @@ production work. Use the split only where it improves the result.
   provider, model, and options from the orchestrator capabilities catalog and
   preserve the user's chosen account and model. Use each provider's primary
   model for these steps; Terra Low/Medium stays for the bounded jobs the global
-  rules name. If a provider, model, or account is unavailable, report it; never
-  substitute silently.
+  rules name. On exhausted quota or a rate limit, follow the shared instructions'
+  provider failover rule, preserving the requested model and effort. Other
+  unavailable routing must be reported; never substitute silently.
 - Outside T3, use only a supported cross-provider delegation mechanism;
   otherwise report the limitation.
 - Delegate complete tasks. Delegates get no parent history, so the brief must

@@ -106,8 +106,20 @@ capabilities and environment.
   set explicitly. In T3 Code, use `delegate_task` when the requested model or
   settings differ from the current agent; put effort in `target.options`.
   Resolve the configured Codex provider through the available model catalog,
-  preserve my account/provider choice, and report unavailable routing instead
-  of silently substituting another model or account.
+  preserve my account/provider choice except for the quota failover below,
+  and report unavailable routing instead of silently changing models.
+- If a provider reports exhausted quota, a usage cap, or a rate limit, this is
+  standing authorization to try another enabled, authenticated provider for the
+  same model family without asking me. For Claude work, try another Claude
+  provider. Keep the requested model and effort; do not change models or model
+  families without authorization. Refresh the provider catalog after the error,
+  announce the switch briefly, and carry forward the task, evidence, and scope.
+  Try each eligible provider at most once per failover; skip providers already
+  known to be exhausted during this task. Respect retry-after limits and do not
+  loop on the exhausted provider. Ensure a replaced run has stopped before
+  launching its replacement. If no eligible provider succeeds, report the
+  attempted providers and blocker. An explicit provider-only or account-only
+  restriction overrides this fallback permission.
 - Delegate a complete job, not each click, command, screenshot, or tool call.
   Keep trivial isolated calls in the current agent when a handoff would add
   more overhead. Give the worker the exact scope, relevant instructions,
