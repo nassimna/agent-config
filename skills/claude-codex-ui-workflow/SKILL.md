@@ -56,6 +56,10 @@ Claude's handoff must be actionable for implementation without follow-up:
 - Copy, phrased for the translation files.
 - Acceptance criteria Codex can verify in the actual app.
 - A visual or prototype only when it clarifies something the text cannot.
+- For consequential unresolved behavior or architecture, use small runnable
+  prototypes to settle observable questions. Compare under one brief, preserve
+  the observed result and decision reason, and distinguish a scratch sketch from
+  integrated app verification. Do not add variants to routine established fixes.
 
 For new or substantially changed forms, onboarding, signup, pricing,
 upgrade, and cancellation journeys, include:

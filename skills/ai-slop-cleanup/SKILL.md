@@ -111,9 +111,12 @@ with independent authorized simplifications while any required decision waits.
 
 ## Verify and finish
 
-Use focused existing tests and checks for the affected behavior. Add or adjust a
-small number of meaningful tests only where needed. Assert independently known
-outputs, errors, or side effects; do not copy the implementation into the test.
+Choose the smallest reliable check for the affected behavior. Under the user's
+standing test authorization, add or update relevant tests and run focused checks
+without asking again. Use broader suites only when the affected behavior or
+required project checks justify them. Respect explicit task restrictions. Use
+actual-app proof or isolated temporary checks where appropriate. Never mirror
+the implementation as its own oracle.
 Do not remove assertions, skip failures, or blanket-update snapshots to get green.
 
 For each edit, state the relevant behavior that must remain true and the check

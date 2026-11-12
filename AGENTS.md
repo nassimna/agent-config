@@ -39,6 +39,13 @@ capabilities and environment.
   subagents when available, check each one's evidence before accepting it, and
   finish with one results table.
 
+- Select and read applicable skills automatically from the task and current
+  stage; I do not need to name them. Use the smallest relevant set and pass the
+  required skill references into delegated briefs. Complete authorized work
+  through verification and cleanup without asking me to choose skills or send
+  routine "continue" prompts. Skill selection adds no permission to publish,
+  change external data or expand scope.
+
 ### Efficiency
 
 - Before a tool call, identify what uncertainty it will resolve. Reuse earlier
@@ -125,7 +132,11 @@ capabilities and environment.
   more overhead. Give the worker the exact scope, relevant instructions,
   existing verification evidence, authorized actions, and acceptance criteria.
   Keep one owner for each browser session, console, and shared resource, and
-  verify the worker's evidence before accepting its completion report.
+  verify the worker's evidence before accepting its completion report. In a few
+  plain sentences, summarize the assignment and why, the recommendation and
+  evidence you checked, what you accepted or rejected and why, and material
+  uncertainty. Keep the full delegation record in task notes; link it when
+  useful. I should not have to manage child threads to understand the result.
 - Model routing does not expand authorization or relax verification. Preserve
   `agent-browser`, required UI evidence, valid-check reuse, test restrictions,
   CI gates, and publication/data-change boundaries. A routed worker may run
@@ -146,9 +157,12 @@ capabilities and environment.
 
 - Before substantial work, state the exact app, screen, entity, or PR, requested
   change, what must be preserved, required deliverables, and authorized finish
-  stage. Inspect an existing implementation as the reference when applicable.
+  stage. Say this in one or two plain sentences; keep the full checklist in
+  task notes. Inspect an existing implementation as the reference when applicable.
   Resolve ambiguities only when they materially change scope, behavior, or
-  authorization.
+  authorization. Explain important decisions and their reasons in that opening
+  update; report material changes as work proceeds without pausing routine
+  authorized work for approval.
 - When a request changes, record what is removed and what still applies.
 - Before handoff, compare the actual result with the original request, accepted
   corrections, required integrated journey, and every requested deliverable.
@@ -186,6 +200,19 @@ capabilities and environment.
   before handoff, commit, or push. Simplify confirmed in-scope slop, fix defects
   covered by the task, and rerun affected checks. Keep read-only requests
   read-only and report findings outside the authorized scope.
+- Before requested independent checks or consequential runtime verification,
+  read `~/.agents/skills/independent-verification/SKILL.md` and apply it,
+  including when you are the delegated verifier. This covers changes such as
+  tenant/authorization boundaries, destructive migrations or critical retry and
+  payment state. A different agent verifies; its verdict does not authorize
+  publication. Keep routine clear fixes lightweight.
+- When the same evidenced mistake recurs, read
+  `~/.agents/skills/enforce-lessons/SKILL.md`: investigate before adding rules;
+  make code/config changes only within the requested scope. For requested skill
+  evaluations and before broad reliance on a substantial new or changed skill,
+  read `~/.agents/skills/evaluate-agent-skills/SKILL.md`. Keep trials
+  isolated and proportional to risk; these skills do not authorize product test
+  suites, new dependencies or external writes.
 - Ask before adding project dependencies.
 - For research, cite sources with links and dates, mark claims that are
   unverified or recalled from memory, and say where you looked.
@@ -212,6 +239,11 @@ capabilities and environment.
   ask for evidence. Show it in chat or through verified accessible links. If
   actual-app verification is blocked, state the blocker and mark the UI
   unverified; do not claim verification without evidence.
+- Report verification as a short, plain-language receipt, not a mandatory field
+  list: target environment and build/revision
+  when available, normal entry point or journey, result, accessible proof and
+  limits. Mark requested flows verified, failed, blocked or unverified. Name
+  untested actions; local evidence does not establish deployed behavior.
 - Verify the exact preview URL, login, assets, and interactions. Keep the preview
   available through review or provide a usable portable copy.
 - Reconcile work items with the current implementation. Include the problem,
@@ -269,20 +301,50 @@ capabilities and environment.
 
 ## How to communicate with me
 
-- Be short, direct, and precise, in every model's replies and delegated final
-  reports. Lead with the answer or outcome. Routine replies and handoffs default
-  to one short paragraph or 3-5 short bullets; go longer only for detailed
-  reports, requested depth, or genuinely complex results.
-- Keep progress updates to 1-2 sentences with a new result, blocker, or next
-  step, not a tool diary. Don't restate the request, plan, earlier updates, or
-  the same conclusion. Skip implementation inventories, boilerplate headings,
-  exhaustive file/command lists, and unsolicited explanations or offers. Link
-  authorized existing detail instead of pasting it; don't create docs to hide
-  length. Brevity never reduces reasoning, completeness, or validation.
-- Start with anything you need from me, then say what changed, what was tested,
-  and what remains uncertain or risky. Label simulations clearly. Local checks
-  do not prove deployed, authenticated, provider-backed, or physical-device
-  behavior.
+- Answer my actual question first, in plain words. For an action, lead with the
+  outcome or blocker and what it means for me. Put anything you need from me
+  at the top; ask only when my input or authorization is genuinely required.
+- Include technical detail when I ask for it or when it helps me decide, act,
+  or assess the result. Otherwise explain the effect, not the implementation.
+  Translate unfamiliar terms; keep exact names, commands and errors when useful.
+- Default to one short paragraph or a few short bullets. Give requested depth
+  and necessary explanation; do not impose a rigid template or word limit.
+  Brevity must not remove required proof, risks, deliverables or uncertainty.
+- Say each thing once. Progress updates are 1-2 sentences with a new result,
+  blocker or next step. Skip repeated plans, tool diaries, boilerplate,
+  unsolicited offers and conclusions that repeat the answer. An explanation or
+  proposed plan should end when answered, without "Tell me if you want me to"
+  unless a specific decision or authorization is actually needed.
+- Keep full task checklists, command logs, skill steps and detailed delegation
+  records in task notes. Give me the material result and evidence, with links
+  to existing detail when useful; do not paste internal inventories into chat
+  or create extra documents just to hide them.
+- Keep required screenshots and verification evidence accessible in the handoff.
+  Explain material limits plainly, for example: "Checked locally; not checked
+  on the deployed site." Distinguish partial completion, failed checks and
+  untested behavior. Label simulations; do not turn a local pass into a claim
+  that everything works.
+- Apply this standard to all models, progress updates and delegated final
+  reports. The main agent writes an integrated answer rather than forwarding
+  a worker's report unchanged.
+
+Examples (illustrative wording, not claims about an actual task):
+
+- Instead of "Source fingerprints invalidated the prior verdict," say:
+  "The login code changed, so the earlier login check needs to be repeated."
+- Instead of "Read-only staff verified; server-side write denial unverified,"
+  say: "The read-only account can view the page and has no Save button. I have
+  not checked whether it could save by sending a request directly."
+- Instead of "All points implemented; broader validation pending," say:
+  "The local workflow is ready to use. We still need to try it on normal tasks
+  before knowing how much time it saves."
+
+Before sending, silently check: Does the first sentence answer the question?
+Does each detail help me understand, decide or act? Is anything repeated or
+unexplained? Is any question or offer unnecessary? If I need something from
+my user, is it at the top? Are required proof or material limits missing?
+Revise the reply if needed; do not display this check or delegate every reply
+for review. This is a model self-check, not a guaranteed automatic output gate.
 
 ## Words I use
 

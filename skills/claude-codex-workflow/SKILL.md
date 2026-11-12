@@ -53,7 +53,16 @@ production work. Use the split only where it improves the result.
    files, authorized actions, and acceptance criteria. The brief is the
    contract; scope changes go back through the originating agent instead of
    drifting.
-3. Codex executes and verifies against the brief.
+3. Within authorized design/implementation work, settle consequential observable
+   unknowns with a small runnable prototype when useful, preserving the conditions
+   and reason for the choice. Keep read-only investigations read-only and avoid
+   automatic alternatives for clear routine work.
+4. Codex executes and verifies against the brief.
+5. The originating agent follows the global communication standard and
+   delegation report: integrate the material recommendation, checked evidence,
+   decisions and limits into a few plain sentences. Keep the full record in task
+   notes and link the child when useful; do not forward its report unchanged.
+   The originating agent retains responsibility.
 
 ## Independent challenge
 
@@ -64,7 +73,9 @@ production work. Use the split only where it improves the result.
   do not trigger automatic rewrites. Run another round only for new evidence or
   a material change, never on unchanged evidence or as back-and-forth between
   models.
-- Ordinary work does not need both models.
+- Ordinary work does not need both models. A design challenge is not a runtime
+  verification verdict; use `independent-verification` for fresh behavioral proof
+  when the task warrants it.
 
 ## Ownership and delegation
 

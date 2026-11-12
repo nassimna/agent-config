@@ -38,6 +38,14 @@ conditions. The unit of work is a measured operation, not a speculative rewrite.
   evaluator objections, remaining budget, and next action. Share environment
   identity and resource ownership with UI/UX work, not findings or scores.
 
+## Reuse the measurement recipe
+
+Keep a proven measurement command/recipe with its existing project skill or
+local task evidence: exact operation, data preparation, timing boundaries,
+production-equivalent build/cache conditions, repetitions and error/work counts.
+Read it before reuse and report changed conditions. Do not replace Nassim's
+planned journey skill or infer a speedup from faster failed requests.
+
 ## Record coverage explicitly
 
 Use JSON for the ledger. Each required measurement or behavior check records

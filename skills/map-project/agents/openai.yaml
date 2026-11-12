@@ -1,0 +1,6 @@
+interface:
+  display_name: "Map Project"
+  short_description: "Generate source-grounded feature maps and flows"
+  default_prompt: "Use $map-project to generate or refresh this project's feature map and agent flows."
+policy:
+  allow_implicit_invocation: true
