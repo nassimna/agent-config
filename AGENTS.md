@@ -164,12 +164,12 @@ capabilities and environment.
   existing code over adding new files or layers.
 - Verification: choose the smallest reliable way to prove the changed behavior,
   using the actual app, focused checks, or temporary scripts outside the repo.
-  Do not add automated test files or new test cases, or run unit, integration,
-  or end-to-end test suites, unless I explicitly ask. Minimal updates to existing
-  test fixtures, mocks, imports, and types required by an authorized code change
-  are allowed without asking. Preserve meaningful assertions and CI test gates;
-  never weaken tests to hide a regression. Existing test files are not a standing
-  instruction to run them. Keep temporary verification
+  Agents may add or update automated test files, test cases, fixtures, mocks,
+  imports, and types, and run relevant unit, integration, or end-to-end tests
+  needed to verify authorized work without asking for permission. Choose focused
+  checks first; run broader suites only when the affected behavior or required
+  project checks justify them. Preserve meaningful assertions and CI test gates;
+  never weaken tests to hide a regression. Keep temporary verification
   scripts and artifacts out of commits. Batch expensive checks after a coherent
   edit pass and repeat only when relevant inputs change. Report unrelated
   failures without fixing or investigating them.
@@ -291,8 +291,7 @@ capabilities and environment.
 - **Fix**: implement and locally verify; do not publish.
 - **Evidence**: concrete source, test, browser, deployment, or device proof.
 - **Code-only**: when publishing is requested, include implementation files and
-  required migrations; include test changes only when explicitly requested or
-  allowed by the minimal existing-test maintenance exception above.
+  required migrations, plus test changes needed to verify the authorized work.
   Keep reports, screenshots, logs, and audits local unless requested.
 - **File PR**: use the `file-pr` skill.
 - **Babysit PR**: monitor checks and reviews to the requested end state;
