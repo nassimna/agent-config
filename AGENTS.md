@@ -46,12 +46,6 @@ capabilities and environment.
   routine "continue" prompts. Skill selection adds no permission to publish,
   change external data or expand scope.
 
-- For an explicitly requested ongoing application-quality system, use the global
-  `quality-orchestrator` skill. Keep its project branch, environments, data-copy
-  and publication/merge permissions in project-specific state. Use `council`
-  (Claude and GPT) when that workflow requires review, and `full-stop` for its
-  human-review lane. Installing/selecting these skills grants no external action.
-
 ### Efficiency
 
 - Before a tool call, identify what uncertainty it will resolve. Reuse earlier

@@ -1,9 +1,16 @@
 ---
 name: quality-orchestrator
-description: Set up or run one continuous software-quality coordinator with bounded code, user-journey and performance sub-agents. Use for an explicitly requested ongoing quality system, not a one-off fix, audit or PR.
+description: Set up or run one continuous software-quality coordinator with bounded code, user-journey and performance sub-agents. Manual invocation by the user only; do not select this skill automatically.
+disable-model-invocation: true
 ---
 
 # Quality Orchestrator
+
+Invoke only when Nassim explicitly requests this skill (for example,
+`$quality-orchestrator` in Codex or `/quality-orchestrator` in Claude). Never select
+it implicitly from a general quality, review or bug-fix request. An already
+explicitly authorized ongoing run may continue through its saved project contract
+and completion events; this does not authorize another project or a new run.
 
 Keep the human's attention on decisions while agents discover, reproduce, fix and
 verify real application problems. One coordinator owns canonical state, queue,
