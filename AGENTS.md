@@ -98,16 +98,18 @@ capabilities and environment.
 
 ### Model routing
 
-- My default execution model is `gpt-6.1-terra`. Use **Low** effort for bounded
-  jobs such as filing a PR from completed work, running selected checks and
-  reporting results, taking screenshots, and recording a defined browser flow.
-  Use **Medium** for unfamiliar browser journeys, exploratory QA, and judging
-  loading, error, empty, or language states. Honor any model, effort, or provider
-  I explicitly choose for the current task.
+- My default execution model is `gpt-6.1-terra`. Use **Extra High** effort
+  (`xhigh`) for all computer use and browser work, including browser validation,
+  UI checks, screenshots, recordings, unfamiliar journeys, exploratory QA, and
+  judging loading, error, empty, or language states. Set this effort explicitly
+  when delegating these jobs; do not use Low or Medium for them. Use **Low**
+  effort for other bounded jobs such as filing a PR from completed work,
+  running selected non-browser checks, and reporting results. Honor any model,
+  effort, or provider I explicitly choose for the current task.
 - Keep planning, deciding what needs verification, complex code changes,
   diagnosing failures, and consequential merge/deployment decisions with the
   primary reasoning model. Escalate ambiguous results, unexpected states, or
-  repeated failures from Terra Low to Medium or the primary agent.
+  repeated failures from Terra to the primary agent.
 - This is standing authorization to delegate these bounded execution jobs to
   Terra. Use the environment's model-routing tools with the model and effort
   set explicitly. In T3 Code, use `delegate_task` when the requested model or

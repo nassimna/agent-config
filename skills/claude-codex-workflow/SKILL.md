@@ -86,8 +86,9 @@ production work. Use the split only where it improves the result.
 - In T3 Code, cross-provider work goes through `delegate_task`. Resolve the
   provider, model, and options from the orchestrator capabilities catalog and
   preserve the user's chosen account and model. Use each provider's primary
-  model for these steps; Terra Low/Medium stays for the bounded jobs the global
-  rules name. On exhausted quota or a rate limit, follow the shared instructions'
+  model for these steps; Terra follows the global effort rules for bounded jobs,
+  including Extra High (`xhigh`) for computer use and browser work. On exhausted
+  quota or a rate limit, follow the shared instructions'
   provider failover rule, preserving the requested model and effort. Other
   unavailable routing must be reported; never substitute silently.
 - Outside T3, use only a supported cross-provider delegation mechanism;
