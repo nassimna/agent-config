@@ -85,8 +85,9 @@ production work. Use the split only where it improves the result.
   step itself and delegates execution to Codex.
 - In T3 Code, cross-provider work goes through `delegate_task`. Resolve the
   provider, model, and options from the orchestrator capabilities catalog and
-  preserve the user's chosen account and model. Use each provider's primary
-  model for these steps; Terra follows the global effort rules for bounded jobs,
+  preserve the user's chosen account and any model explicitly requested. For
+  primary Codex work, default to `gpt-6.2-sol`; for Claude, use the provider's
+  primary model. Terra follows the global effort rules for bounded jobs,
   including Extra High (`xhigh`) for computer use and browser work. On exhausted
   quota or a rate limit, follow the shared instructions'
   provider failover rule, preserving the requested model and effort. Other

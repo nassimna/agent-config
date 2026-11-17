@@ -7,10 +7,12 @@ description: Get independent Claude and GPT reviews and reconcile their findings
 
 Use exactly two members: one Claude model and one GPT model. Resolve the latest
 available suitable flagship in each family from the current model catalog,
-respecting named models/accounts and configured provider preferences. Use high
-reasoning effort where supported. Never substitute a third family. If a member
-is unavailable, report the gap; one reply is not a completed council. Follow the
-user's same-family quota failover policy without silently changing models.
+respecting named models/accounts and configured provider preferences. When
+selecting Sol, default to `gpt-6.2-sol` unless the user requests another version.
+Use high reasoning effort where supported. Never substitute a third family. If
+a member is unavailable, report the gap; one reply is not a completed council.
+Follow the user's same-family quota failover policy without silently changing
+models.
 
 ## Prepare and delegate
 
