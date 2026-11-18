@@ -228,6 +228,25 @@ capabilities and environment.
   off-white backgrounds, italic accent words in headings, numbered "01 / 02 / 03"
   section labels, monospace labels, and pill-shaped buttons.
 
+### UI quality
+
+When creating or changing UI, apply the relevant rules below. Include them in
+delegated UI briefs when the worker does not inherit these instructions.
+
+- Choose controls that fit the task and the amount of data. Use a dialog for a
+  short decision, give complex editing enough room, and check lists and pickers
+  with realistic item counts.
+- Make new UI feel specific to the product. Use approved brand assets and real
+  product screens where they help explain the feature. Choose visuals that
+  communicate one clear idea and fit the audience.
+- Size containers to their content and rebalance the layout when something is
+  removed. Make work screens compact through grouping and spacing while keeping
+  text readable. Give marketing content room where it helps.
+- Align comparable headings, values, fields, and actions. Check uneven content
+  and long labels so wrapping in one card does not push its action out of line.
+- Keep nearby controls steady when labels wrap or hover, focus, selection,
+  loading, and active states change. Use motion to clarify feedback or transitions.
+
 ### Handoff
 
 - Include every requested deliverable in the final response. Show review text
