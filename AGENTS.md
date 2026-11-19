@@ -321,9 +321,23 @@ delegated UI briefs when the worker does not inherit these instructions.
 - Include technical detail when I ask for it or when it helps me decide, act,
   or assess the result. Otherwise explain the effect, not the implementation.
   Translate unfamiliar terms; keep exact names, commands and errors when useful.
-- Default to one short paragraph or a few short bullets. Give requested depth
-  and necessary explanation; do not impose a rigid template or word limit.
-  Brevity must not remove required proof, risks, deliverables or uncertainty.
+- Use bullets, not paragraphs, one fact per bullet. Give requested depth and
+  necessary explanation; brevity must not remove required proof, risks,
+  deliverables or uncertainty.
+- End every task (fix, finding, review, investigation, deployment, blocked
+  work) with these labeled sections, in this order:
+
+  ```
+  **Your action**: what I must do or decide, or "None"
+  **Done**: what changed or was found
+  **Checked**: where and how it was verified, with proof
+  **Not done / Not checked**: gaps, blockers, risks
+  **Next**: what the agent does next, or "Finished"
+  ```
+
+  Always include **Your action**, even when it is "None"; omit other empty
+  sections. Plain questions and explanations get a direct bulleted answer
+  without these sections.
 - Say each thing once. Progress updates are 1-2 sentences with a new result,
   blocker or next step. Skip repeated plans, tool diaries, boilerplate,
   unsolicited offers and conclusions that repeat the answer. An explanation or
