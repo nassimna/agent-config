@@ -1,6 +1,7 @@
 ---
 name: claude-codex-ui-workflow
-description: Route new UI and UX work between Claude (design, product, and interaction judgment) and Codex (production implementation, integration, and fixes). Use when a task creates or improves an interface or user flow, or raises an ambiguous product decision inside a UI task. Specializes claude-codex-workflow. Not for backend-only work or small mechanical fixes that follow an established design.
+description: Manual invocation only. Have Claude design a new or improved interface or user flow and Codex implement, integrate, and verify the agreed design.
+disable-model-invocation: true
 ---
 
 # Claude/Codex UI Workflow
@@ -8,6 +9,8 @@ description: Route new UI and UX work between Claude (design, product, and inter
 Claude designs; Codex builds. Codex is substantially cheaper for production
 code, so Claude's output is a design and decisions, not the shipped
 implementation.
+
+Start this workflow only when Nassim explicitly requests it.
 
 ## Roles
 
@@ -25,9 +28,9 @@ implementation.
 
 ## Ownership and delegation
 
-Follow the ownership, delegation, brief, and boundary rules in
-[claude-codex-workflow](../claude-codex-workflow/SKILL.md). For UI, the
-originating agent delegates design to Claude when it runs on Codex, and
+Use the ownership, delegation, brief, and boundary sections of
+[claude-codex-workflow](../claude-codex-workflow/SKILL.md) as a reference.
+The originating agent delegates design to Claude when it runs on Codex, and
 production implementation to Codex when it runs on Claude.
 
 ## Multiple UI samples or sets
@@ -90,5 +93,3 @@ The actual app, not the prototype, is the implementation preview.
   unchanged work or bounce between models automatically.
 - Small mechanical fixes that follow the established design stay with Codex
   without a Claude pass.
-- Any other cross-model challenge follows `claude-codex-workflow`; do not add
-  one to routine work.

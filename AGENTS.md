@@ -40,8 +40,8 @@ capabilities and environment.
   finish with one results table.
 
 - Select and read applicable skills automatically from the task and current
-  stage; I do not need to name them. Use the smallest relevant set and pass the
-  required skill references into delegated briefs. Complete authorized work
+  stage unless they require explicit invocation. Use the smallest relevant set
+  and pass the required skill references into delegated briefs. Complete authorized work
   through verification and cleanup without asking me to choose skills or send
   routine "continue" prompts. Skill selection adds no permission to publish,
   change external data or expand scope.
@@ -98,10 +98,10 @@ capabilities and environment.
 
 ### Model routing
 
-- My default execution model is `gpt-6.1-terra`. Use **Extra High** effort
-  (`xhigh`) for all computer use and browser work, including browser validation,
-  UI checks, screenshots, recordings, unfamiliar journeys, exploratory QA, and
-  judging loading, error, empty, or language states. Set this effort explicitly
+- Use **Extra High** effort (`xhigh`) for all computer use and browser work,
+  including browser validation, UI checks, screenshots, recordings, unfamiliar
+  journeys, exploratory QA, and judging loading, error, empty, or language
+  states. Set this effort explicitly
   when delegating these jobs; do not use Low or Medium for them. Use **Low**
   effort for other bounded jobs such as filing a PR from completed work,
   running selected non-browser checks, and reporting results. Honor any model,
@@ -109,10 +109,9 @@ capabilities and environment.
 - Keep planning, deciding what needs verification, complex code changes,
   diagnosing failures, and consequential merge/deployment decisions with the
   primary reasoning model. Escalate ambiguous results, unexpected states, or
-  repeated failures from Terra to the primary agent.
-- This is standing authorization to delegate these bounded execution jobs to
-  Terra. Use the environment's model-routing tools with the model and effort
-  set explicitly. In T3 Code, use `delegate_task` when the requested model or
+  repeated failures from delegated work to the primary agent.
+- When delegating, use the environment's model-routing tools with the model and
+  effort set explicitly. In T3 Code, use `delegate_task` when the requested model or
   settings differ from the current agent; put effort in `target.options`.
   Resolve the configured Codex provider through the available model catalog,
   preserve my account/provider choice except for the quota failover below,
@@ -143,17 +142,11 @@ capabilities and environment.
   `agent-browser`, required UI evidence, valid-check reuse, test restrictions,
   CI gates, and publication/data-change boundaries. A routed worker may run
   missing focused checks within those rules; it must not skip them for speed.
-- Claude leads genuinely open-ended judgment and Codex executes the agreed
-  approach; neither is universally better. When the approach is unresolved and
-  judgment or creativity is central, automatically use `claude-codex-workflow`
-  at `~/.agents/skills/claude-codex-workflow/SKILL.md`. For new UI
-  and UX work, use `claude-codex-ui-workflow` at
-  `~/.agents/skills/claude-codex-ui-workflow/SKILL.md` instead
-  (Claude designs, Codex implements). This is standing authorization for those
-  skills' cross-provider delegation; it adds no authority beyond the request.
-  The originating agent keeps task ownership and the primary-model duties
-  above. Routine tasks, clear fixes, simple questions, straightforward
-  implementation, and small established-pattern UI changes keep normal routing.
+- Use `claude-codex-workflow` for open-ended judgment or
+  `claude-codex-ui-workflow` for UI/UX only when I explicitly request that
+  workflow. The request authorizes its cross-provider delegation within task
+  scope. The originating agent keeps task ownership and the primary-model
+  duties above.
 
 ### Communication and alignment
 

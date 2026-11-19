@@ -18,7 +18,6 @@ and preserve the user's model/browser choices. Keep clear fixes lightweight.
 | Task or stage | Apply when relevant |
 | --- | --- |
 | Runtime validation | The project's existing verification skill or recipe, plus agent-browser for web journeys |
-| Unresolved architecture or product judgment | claude-codex-workflow; new UI/UX uses claude-codex-ui-workflow |
 | Performance measurement or optimization | performance-loop |
 | Requested fresh check or consequential behavior | independent-verification |
 | Recurring evidenced correction | enforce-lessons; investigate before proposing a structural fix |

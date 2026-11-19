@@ -1,6 +1,7 @@
 ---
 name: claude-codex-workflow
-description: Split work between Claude (exploring ambiguous or open-ended problems, questioning assumptions, comparing options, creative and product judgment, recommending an approach) and Codex (implementing, integrating, verifying, and fixing the agreed approach). Use when the approach is genuinely unresolved and judgment or creativity is central, such as architecture choices, research synthesis, planning, or writing, or when a consequential decision warrants an independent other-model challenge. Not for routine tasks, clear fixes, simple questions, or straightforward implementation; new UI/UX uses claude-codex-ui-workflow.
+description: Manual invocation only. Have Claude explore an unresolved architecture, research, planning, or writing decision and Codex implement and verify the agreed approach. Supports a bounded cross-model challenge for consequential decisions.
+disable-model-invocation: true
 ---
 
 # Claude/Codex Workflow
@@ -11,18 +12,18 @@ production work. Use the split only where it improves the result.
 
 ## When it applies
 
+- Start this workflow only when Nassim explicitly requests it.
 - **Use** when the approach is genuinely unresolved and judgment or creativity
   is central: ambiguous problems, architecture or design choices, research
   synthesis, planning, product decisions, or writing.
 - **Skip** routine tasks, clear fixes, factual or simple questions,
   straightforward implementation with no meaningful open approach, and small UI
-  adjustments that follow an established pattern. Global Terra routing for
-  bounded jobs is unchanged.
+  adjustments that follow an established pattern.
 - Do not send all diagnosis, research, or architecture work to Claude by
   default. Most diagnosis is evidence work that stays with the executing agent;
   bring in Claude when the open question is one of judgment.
-- New UI and UX work uses `claude-codex-ui-workflow`, which specializes this
-  skill.
+- `claude-codex-ui-workflow` is the UI/UX specialization and requires its own
+  explicit request.
 
 ## Roles
 
@@ -87,11 +88,8 @@ production work. Use the split only where it improves the result.
   provider, model, and options from the orchestrator capabilities catalog and
   preserve the user's chosen account and any model explicitly requested. For
   primary Codex work, default to `gpt-6.2-sol`; for Claude, use the provider's
-  primary model. Terra follows the global effort rules for bounded jobs,
-  including Extra High (`xhigh`) for computer use and browser work. On exhausted
-  quota or a rate limit, follow the shared instructions'
-  provider failover rule, preserving the requested model and effort. Other
-  unavailable routing must be reported; never substitute silently.
+  primary model. Follow the shared effort and provider failover rules,
+  preserving the requested model and effort. Report unavailable routing.
 - Outside T3, use only a supported cross-provider delegation mechanism;
   otherwise report the limitation.
 - Delegate complete tasks. Delegates get no parent history, so the brief must
