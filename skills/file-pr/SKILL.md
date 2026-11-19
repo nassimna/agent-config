@@ -61,17 +61,22 @@ match the user's goal exactly.
 
 - Open a non-draft PR unless the user or project requires draft status.
   Honor required staging/evidence gates before promoting a draft.
-- Begin the description with the user-visible problem, then briefly explain the
-  solution. Do not lead with an implementation inventory.
-- Write from the final diff and recorded verification, not the conversation's
-  chronology or abandoned approaches. Follow required repository templates and
-  body validators while keeping their sections concise and relevant. For a
-  simple change, a short problem/change paragraph and verification are enough
-  unless the repository requires more structure.
-- Include focused validation, material risks, anything unverified, and linked
-  issues when available. For UI changes, include image/video attachments in the PR
-  body using the requirements below; do not wait for another request for
-  screenshots.
+- Start with the user-visible change in concise, plain language. For a bug,
+  describe what went wrong, when it happened, and what happens now. For a
+  feature, walk through the normal user journey from entry point to outcome.
+  Identify who does each step when the journey spans roles. Include technical
+  details that help the reviewer understand the change or a tradeoff.
+- Write from the final diff and recorded verification. Follow required
+  repository templates and body validators. A simple change can use a short
+  opening paragraph and a verification note.
+- Describe verification briefly. Say what was checked, where it ran, what
+  happened, and what remains unverified or blocked. Include supporting evidence
+  and link the issue when available. Attach UI evidence in the body as described
+  below.
+- Add **Review focus** when a reviewer has a meaningful decision or a risky
+  behavior to check, such as permissions, an import, or a migration. Give one
+  concrete question or check. Add rollout details when the merge has
+  operational consequences.
 - Do not merge, close, label, assign, or delete the source branch unless the
   user separately asks.
 
@@ -95,6 +100,15 @@ choices only when they explain the fix or a meaningful tradeoff.
 > from viewing quantities or recording deliveries. The response now matches the
 > existing report contract, so those operations work again.
 
+**Feature journey — good:**
+
+> A guide opens Pilgrim selections and submits a passport number. An admin
+> reviews the request, and the guide returns to the same list to see the decision.
+
+**Review focus — good:**
+
+> Can a guide see a pilgrim's details before an admin approves the request?
+
 Keep decisive checks and material limits after that explanation; the example
 paragraph alone is not a complete verification receipt. For performance changes,
 a title such as `perf(packages): reduce editor loading time` explains the goal.
@@ -103,9 +117,15 @@ Never turn an illustrative example into a fabricated result.
 
 ## Image and video evidence
 
-- For UI changes, capture the actual app's final state at relevant viewports.
-  Include before/after comparisons when useful, and caption each screenshot
-  with the flow, state, and viewport shown. Clearly label simulated data.
+- For each changed UI screen or flow, embed actual-app screenshots under
+  separate, visible **Desktop** and **Mobile** headings in the PR body.
+- When a prior UI exists, show labeled **Before** and **After** screenshots
+  under each viewport. Capture the same screen and comparable conditions for
+  each pair. For a brand-new screen, include **After** in both sections.
+- Show states that demonstrate the change, such as a failed import row with its
+  reason or a list with the new statuses. Caption each screenshot with the
+  flow and state. Use synthetic records and identify them in the evidence.
+  Label simulated behavior.
 - Open and inspect every image for readability, correct content, and sensitive
   data before attaching it. Retake blurry, stale, or misleading captures.
 - Upload images and videos as GitHub attachments directly in the PR body using
