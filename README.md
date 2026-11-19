@@ -24,6 +24,32 @@ Install and authenticate Codex and Claude separately. Skills that use external
 tools need those tools installed too; screen recording currently requires Linux
 with X11. This repository does not install applications or migrate login sessions.
 
+## Writing instructions and skills
+
+`AGENTS.md` and every skill `description` load into every session; a skill body
+loads only when the skill triggers, and its `references/` only when the body
+points there. Spend words accordingly.
+
+- **One home per rule.** `AGENTS.md` holds rules for most tasks: scope,
+  permissions, communication. A skill holds rules for its task only. Skills
+  never restate `AGENTS.md`; they add narrower limits or say nothing.
+- **Write only what changes behavior.** Keep a rule if an agent would get it
+  wrong without it. Drop generic good practice, rationale, and restatements.
+- **Concrete trigger, concrete action.** "Use X when Y", "Never Z". Avoid
+  stacked qualifiers ("always carefully ensure…") and abstract nouns ("evidence
+  validity", "finish-stage ownership") that the reader has to decode.
+- **Change in place.** When a rule changes, edit or delete the old wording; don't
+  append an exception elsewhere. After a mistake, use `enforce-lessons` to check
+  whether an existing rule should be sharpened before adding one.
+- **Descriptions:** at most ~50 words: what the skill does, when to use it, and
+  when not to (name the sibling skill). No marketing.
+- **Bodies:** aim for under ~800 words. Ordered steps with exit conditions. Move
+  long references, templates, and examples into `references/` with a line
+  saying when to read each.
+- **Check before committing:** compare `wc -w` before and after, `rg` a
+  distinctive phrase to catch duplicates across `AGENTS.md` and `skills/`, and
+  use `evaluate-agent-skills` when a change alters behavior substantially.
+
 ## Folio HTML artifacts
 
 `html-artifact` creates and checks the review page, then uses

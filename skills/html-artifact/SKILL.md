@@ -69,7 +69,7 @@ Use controls only when they aid a real decision. For editable selections or para
 
 ## Verify and deliver
 
-Open the actual file in the available built-in browser, otherwise use agent-browser. Inspect desktop and narrow-screen rendering, exercise navigation and every added interaction, and check for overflow, clipped labels, broken links, missing assets, and console errors. Check print rendering when print support matters. Capture readable final-state screenshots and provide evidence the user can open. If browser verification is blocked, state what remains unverified.
+Open the actual file with agent-browser. Inspect desktop and narrow-screen rendering, exercise navigation and every added interaction, and check for overflow, clipped labels, broken links, missing assets, and console errors. Check print rendering when print support matters. Capture readable final-state screenshots and provide evidence the user can open. If browser verification is blocked, state what remains unverified.
 
 Judge the final screenshots, not just the CSS: check visible gutters, panel and
 table padding, heading rhythm, text density and contrast at desktop and phone
