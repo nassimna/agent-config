@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design"
+  short_description: "Design rules, website builds, and scored UI critiques"
+  default_prompt: "Use $design for this UI work."

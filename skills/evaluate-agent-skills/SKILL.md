@@ -7,9 +7,8 @@ description: Evaluate a new or changed agent skill or verification recipe throug
 
 Check whether the skill works on its intended jobs before relying on it broadly.
 Preserve the user's scope, test restrictions, browser/model choices and data
-boundaries. Evaluation authorizes only the agreed tasks and targets. Relevant
-tests follow the user's standing test authorization and explicit task restrictions;
-new dependencies, external messages and shared/customer writes need authorization.
+boundaries. Evaluation covers only the agreed tasks and targets; new
+dependencies, external messages and shared/customer writes need authorization.
 
 ## Choose the claim and trial
 State the skill/variant, intended behavior, representative tasks, observable

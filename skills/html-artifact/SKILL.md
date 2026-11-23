@@ -1,81 +1,54 @@
 ---
 name: html-artifact
-description: Create readable, portable HTML artifacts for implementation plans, design explorations, code explainers, and reviews, then synchronize them to Folio for hosted delivery. Use when the user asks for an HTML plan or artifact, or a visual document with diagrams and mockups. Honor explicit local-only requests. Do not replace requested Markdown, build a production app, or deploy a separate site merely to deliver a document.
+description: Create and verify portable HTML plans, design explorations, code explainers, and reviews. Use when asked for an HTML artifact or visual document.
 ---
 
 # HTML Artifact
 
-Turn the user's material into a browser-readable document that helps them inspect decisions and give useful feedback. Match the artifact to the task; a short plan does not need a dashboard.
-
-## Source and approach
-
-Inspired by Thariq Shihipar's May 20, 2026 Anthropic article, [Using Claude Code: The unreasonable effectiveness of HTML](https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html).
-
-The article advocates visual documents for exploring alternatives, developing specifications, and carrying context into implementation and verification. Use mockups, diagrams, relevant code, and optional controls where they improve review. Related pages can preserve exploration alongside the selected plan. Editable artifacts should export the reader's choices back into usable text.
-
-The practical delivery and validation guidance below adapts that approach for this environment; it is not a claim that the article prescribes these rules.
+Turn the user's material into a browser-readable document that helps them inspect decisions and give feedback. Match the artifact to the task; a short plan does not need a dashboard.
 
 ## Establish the content
 
-Read the supplied material and relevant code before describing current behavior. Preserve the user's scope, constraints, decisions, and unresolved questions when converting an existing plan. Distinguish observed facts, proposals, assumptions, and illustrative examples. Cite sources near claims and identify inspected files or revisions when useful.
+Read the supplied material and relevant code before describing current behavior. When converting an existing plan, keep its scope, constraints, decisions and open questions. Distinguish observed facts, proposals, assumptions and illustrative examples; cite sources near claims.
 
-Choose the smallest useful deliverable: one HTML file by default, or linked pages when separate explorations and a final plan genuinely need their own space. Follow workspace artifact-location rules and reuse the current conversation's folder. Do not create a framework project for a document.
+Default to one HTML file; use linked pages only when separate explorations and a final plan need their own space. Reuse the current conversation's artifact folder. Never create a framework project for a document.
 
 ## Make a plan reviewable
 
-For implementation planning, cover what the reader needs to decide and what a later implementer needs to execute:
+For implementation plans, cover what the reader must decide and what an implementer must execute, scaled to the task:
 
-- Problem, intended outcome, scope, and constraints.
-- Current behavior and proposed behavior, with a concrete example where useful.
-- Alternatives and tradeoffs when a decision remains open.
-- Relevant interface mockups, architecture or data-flow diagrams, and short code or contract examples.
-- Ordered implementation steps, dependencies, affected components, and acceptance checks.
-- Material risks, open questions, and migration or rollback considerations when applicable.
+- Problem, outcome, scope and constraints.
+- Current vs. proposed behavior, with a concrete example.
+- Alternatives and tradeoffs for open decisions.
+- Interface mockups, architecture or data-flow diagrams, short code or contract examples.
+- Ordered steps, affected components and acceptance checks.
+- Risks, open questions, migration or rollback when relevant.
 
-Scale these elements to the task rather than forcing every heading. Label mockups and proposed snippets clearly. Never imply a prototype is connected to a real backend. Keep the plan actionable as text so another agent can read the HTML source and recover the decisions without operating the UI. Planning alone does not authorize implementation.
+Label mockups and proposed snippets; never imply a prototype is connected to a real backend. Keep decisions readable in the HTML source so another agent can recover them without operating the UI.
 
 ## Build the document
 
-Prefer self-contained HTML with inline CSS, inline SVG, and only the JavaScript needed for useful interactions. Avoid external fonts, CDNs, and runtime fetches by default so the file remains portable. Use relative paths when supporting assets are necessary.
-
-Use semantic headings, readable typography, and a clear reading order. Add anchor navigation for long documents; use tables for comparisons and diagrams for relationships. Keep code in escaped `pre`/`code` blocks, never executable script tags. Ensure narrow-screen layouts, keyboard access, visible focus, sufficient contrast, and readable diagram labels. Keep essential content available without JavaScript and include print styles that reveal collapsed or tabbed content.
+- Self-contained HTML: inline CSS and SVG, JavaScript only for useful interactions. No external fonts, CDNs or runtime fetches; use relative paths for necessary assets.
+- Semantic headings, anchor navigation for long documents, tables for comparisons, diagrams for relationships. Code goes in escaped `pre`/`code` blocks.
+- Keyboard access, visible focus, sufficient contrast, readable diagram labels. Essential content works without JavaScript; print styles reveal collapsed or tabbed content.
+- Use controls only when they aid a real decision. Editable choices get a copy/export action producing text usable in a follow-up prompt, with selectable text as a clipboard fallback. Say whether edits persist.
 
 ## Visual quality
 
-Every artifact should look deliberately designed, including audits and technical
-reports. Choose a restrained palette, clear type hierarchy and consistent spacing
-that suit the content; avoid a wall of dense tables or unstyled browser defaults.
+- Centered reading area with a maximum width; 24–40px desktop and 16–20px phone page gutters; 24–40px between sections; 16–24px inside panels. Text never touches a panel edge.
+- Body text 14–16px, line-height 1.5–1.7; table cells 12–16px padding with clear row grouping.
+- On phones, stack wide comparisons or scroll only the table. Long paths and labels wrap without widening the page.
+- No decorative metrics, gradients, repeated cards or controls added for show.
+- Provide a light/dark palette without network requests; match the host theme for inline delivery.
+- If the inline renderer requires a transparent background and zero outer padding, keep spacing inside sections, and keep a separate portable layout with page gutters for the portable file.
 
-- Standalone and Folio pages need a centered reading area with a sensible maximum
-  width, 24–40px desktop page gutters and 16–20px phone gutters. Leave 24–40px
-  between sections and 16–24px inside panels; text must never touch a panel edge.
-- Use readable body text (usually 14–16px, line-height 1.5–1.7), shorter prose
-  lines and enough space around headings, figures and captions. Compact means
-  economical, not cramped. Give table cells 12–16px padding and clear row grouping.
-- On phones, turn wide comparisons into stacked entries or scroll only the table
-  region. Long paths and labels must wrap without widening the whole page.
-- Use visual emphasis to guide decisions: a brief lead, clear evidence/status
-  labels, and relevant diagrams or screenshots. Do not add decorative metrics,
-  gradients, repeated cards or controls just to make a report seem sophisticated.
-- Match the host's light/dark theme for inline delivery. For portable pages,
-  provide a coherent light/dark palette without requiring a network request.
+## Verify
 
-When the native inline renderer requires a transparent background and zero outer
-padding, keep that outer frame flush and put breathing room inside the content
-sections or panels. Keep a separate portable layout with page gutters for Folio;
-the inline host's framing rules must not make the hosted page edge-to-edge.
+Open the actual file in a browser (prefer `agent-browser`) at desktop and phone widths. Exercise navigation and every interaction; check overflow, clipped labels, broken links, missing assets and console errors, and print rendering when it matters. Judge the screenshots for gutters, padding, heading rhythm and density, for both the inline and the portable version when delivering both. Fix problems before delivery.
 
-Use controls only when they aid a real decision. For editable selections or parameters, offer a copy/export action containing the current choices and enough context for a follow-up prompt. Provide selectable text if clipboard access fails. Explain whether edits persist; never imply changes update project files or external systems.
+## Deliver
 
-## Verify and deliver
+Return the portable HTML file or show it inline as requested. Use `folio-upload`
+only when the user explicitly asks to send this artifact or revision to Folio.
 
-Open the actual file with agent-browser. Inspect desktop and narrow-screen rendering, exercise navigation and every added interaction, and check for overflow, clipped labels, broken links, missing assets, and console errors. Check print rendering when print support matters. Capture readable final-state screenshots and provide evidence the user can open. If browser verification is blocked, state what remains unverified.
-
-Judge the final screenshots, not just the CSS: check visible gutters, panel and
-table padding, heading rhythm, text density and contrast at desktop and phone
-widths. Preview both the inline version and the actual portable/Folio version
-when delivering both; fix cramped or visually unfinished layouts before upload.
-
-Deliver the canonical Folio URL as the review link. Inline previews or attachments may accompany it. Keep the local HTML as the editable source. If Folio sync fails, report the failure and the previous hosted revision accurately; a local preview alone does not complete hosted delivery. Follow environment procedures before starting any preview service. This user's configured default is private Folio delivery: after each completed revision, use [preserve-html-artifact](../preserve-html-artifact/SKILL.md) to upload or update the artifact and return its canonical live URL in chat. Pass the current project, thread ID and readable thread title. Preserve the uploader manifest so revisions keep the same artifact ID and URL. Private links ask the user to sign in. Explicit local-only/no-upload requests take precedence; public sharing still requires explicit intent. Commit, push, separate site deployment, and uploads to other services require their own authorization.
-
-Briefly report what the artifact contains, what was checked, and any unresolved decisions. When implementation or verification is subsequently requested, read the approved artifact and its linked context before proceeding.
+Briefly report what the artifact contains, what was checked and open decisions. Before later implementation or verification, read the approved artifact and its linked context.

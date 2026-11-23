@@ -1,131 +1,70 @@
 ---
 name: ui-ux-loop
-description: Run repeated, evidence-backed UI and UX evaluations across named user journeys, or verify requested usability fixes. Use when the user requests a UI/UX improvement loop or a systematic experience review; use dogfood for ordinary exploratory bug hunting and performance-loop for measured speed improvements.
+description: Run repeated, evidence-backed UI and UX evaluations across named user journeys, or verify requested usability fixes. Use when the user requests a UI/UX improvement loop or a systematic experience review; use dogfood for exploratory bug hunting and performance-loop for measured speed improvements.
 ---
 
 # UI/UX Loop
 
-Improve confidence in usability through actual-app exploration and independent
-evaluation. The unit of work is a user journey, not a screenshot or source file.
+The unit of work is a user journey, not a screenshot or source file.
 
-## Establish the contract
+At loop start, read [references/loop-protocol.md](references/loop-protocol.md)
+for the budget, ledger, evaluator, finish, and stop rules.
+
+## Set the contract
 
 - Identify the app URL/revision, roles, journeys, exclusions, design references,
-  and authorized finish stage from the request. For broad requests, start with
-  3–5 important journeys; avoid multiplying every possible state combination.
-- Audits and reviews are read-only. Implement only requested fixes. Use the
-  developer-workflow skill for code changes and its environment gate before
-  starting test or preview services. Follow existing data ownership rules when
-  exercising interactions, including during an audit.
-- Define observable acceptance criteria per journey before evaluation. Use
-  supplied design guidance and existing app patterns for visual judgments.
-  Distinguish reproducible defects from UX hypotheses that need user validation.
-- Use the user's budget. Otherwise cap the run at five evaluator rounds; a
-  round covers the agreed journeys, not one click. Finish earlier when the
-  completion criteria are satisfied. Do not invent a minimum runtime or bug quota.
-- Keep a task-owned ledger outside the repo or in a verified ignored path:
-  contract, coverage, finding IDs/status, evidence, evaluator objections,
-  remaining budget, and next action. Keep it separate from performance findings.
-
-## Record coverage explicitly
-
-Use JSON for the ledger so a harness can inspect completion. Each required check
-records `id`, `journey`, `state`, `criterion`, `status`, `tested_revision`,
-`evidence`, and `finding_id`. Start checks as `untested`; use `passed` only for
-an observed result satisfying the criterion, `failed` for a reproduced violation
-linked to a finding, and `blocked` with the missing access or authorization.
-Neither `blocked` nor `untested` counts as covered. Record the app build/revision
-and the working diff identity when testing uncommitted changes. Invalidate
-affected checks after code, relevant data, or environment changes. Preserve the
-original criteria; do not weaken them or drop checks to obtain completion.
+  and finish stage. For broad requests, start with 3–5 important journeys;
+  don't multiply every state combination.
+- Follow existing data ownership rules when exercising interactions, even in
+  an audit.
+- Define observable acceptance criteria per journey before evaluating. Judge
+  visuals against supplied design guidance and existing app patterns. Separate
+  reproducible defects from UX hypotheses that need user validation.
+- Ledger checks add `journey` and `state`.
 
 ## Explore, evaluate, repeat
 
-1. Enter the app through normal navigation and attempt the user's actual task.
-   Use `agent-browser` unless the user explicitly requests another browser
-   integration; report blockers instead of silently switching tools. Reuse an
-   approved authenticated session and existing dev stack when available. Assign one
-   browser owner and hand it over between exploration and evaluator passes;
-   do not drive the same tab concurrently.
-2. Check action discoverability, hidden prerequisites, understandable labels,
-   progress/success feedback, recovery, and preservation of user input. Cover
-   relevant mobile/desktop, keyboard/focus, loading, empty, error, and language
-   states. Record concrete friction: unnecessary steps, repeated input, hidden
-   prerequisites, unclear outcomes, and lost work. A polished screen does not
-   establish that the task is usable. Agent task timings or preference judgments
-   are not measurements of human usability. Mark unavailable states `blocked`
-   or `untested` rather than claiming coverage.
-3. Reproduce suspected defects and capture minimal steps, expected/actual
-   behavior, user impact, role/viewport, and screenshots or runtime evidence.
-   Inspect code to explain a demonstrated problem; source inspection alone
-   does not establish actual usability. Deduplicate shared causes and separate
-   environment failures, defects, and subjective proposals.
-4. When delegation is available and authorized, give a fresh evaluator the
-   user's task, unchanged acceptance criteria, app access, and supplied design
-   references first. Let it exercise the scoped journeys and record its own
-   observations before revealing prior findings, coverage, or proposed fixes.
-   Then reconcile both passes, share evidence and unresolved objections, and
-   exercise disputed or missed interactions. On later review rounds, carry the
-   original brief and prior findings, responses, and open objections forward.
-   If a reviewer already saw proposed fixes or findings before its first pass,
-   use a fresh reviewer for that pass or disclose the loss of independence.
-   Use supplied acceptable/problematic UI examples to calibrate judgment. The
-   evaluator must explain failures against the contract, not simply assign a
-   score or praise the result. Without independent evaluation, perform an
-   explicit second pass and disclose that it is not independent.
-5. Resolve specific objections in the app and update the ledger. For authorized
-   fixes, make the smallest change, run affected checks, and repeat the same
-   journey. A finding is resolved only with verification evidence. Preserve
-   existing visual conventions unless redesign is within scope. Run a focused
-   performance check when a UI change could affect loading or responsiveness;
-   move broader optimization work to performance-loop.
+1. Enter through normal navigation and attempt the user's actual task, using
+   `agent-browser` by preference. Reuse an approved signed-in session and the
+   existing dev stack. One browser owner at a time; hand it over between
+   exploration and evaluator passes.
+2. Check discoverability, hidden prerequisites, labels, progress and success
+   feedback, recovery, and preservation of input across relevant mobile/desktop,
+   keyboard/focus, loading, empty, error, and language states. Record concrete
+   friction: extra steps, repeated input, unclear outcomes, lost work. A polished
+   screen doesn't prove the task is usable; agent timings and preferences are not
+   human usability measurements.
+3. Reproduce suspected defects with minimal steps, expected/actual behavior,
+   user impact, role/viewport, and screenshots or runtime evidence. Read code to
+   explain a demonstrated problem, never as proof of usability. Deduplicate
+   shared causes; separate environment failures, defects, and proposals.
+4. Evaluator: give it the user's task, unchanged criteria, app access, and
+   design references first. It exercises the journeys and records its own
+   observations before seeing prior findings, coverage, or proposed fixes; then
+   reconcile both passes and exercise disputed or missed interactions. If it saw
+   findings or fixes before its first pass, use a fresh one or disclose the lost
+   independence. Calibrate with supplied good/bad UI examples.
+5. For requested fixes, make the smallest change, run affected checks, and
+   repeat the same journey; a finding is resolved only with verification
+   evidence. Keep existing visual conventions unless redesign is in scope. Run a
+   focused performance check when a change could affect loading or
+   responsiveness; leave broader optimization to performance-loop.
 
-For the applicable journey, verify that:
+For each applicable journey, also verify:
 
-- Defaults match their stated source and remain editable.
-- Optional inputs do not block the earliest useful outcome.
+- Defaults match their stated source and stay editable.
+- Optional inputs don't block the earliest useful outcome.
 - Back navigation, recoverable errors, and login preserve appropriate work.
 - Progress and availability reflect actual state.
 - Prices disclose billing periods and total commitments.
 - Declining, cancelling, or leaving uses clear, neutral actions.
 
-Attach these checks to the existing journey criteria and coverage ledger.
-Exercise relevant interactions; screenshots alone cannot prove them.
-Report conversion and human usability improvements as hypotheses unless
-supported by measurements.
+Exercise these interactions; screenshots alone can't prove them. Report
+conversion and usability gains as hypotheses unless measured.
 
-## Continue or finish
+## Report
 
-Before handing off, check the contract and ledger. A supported external
-completion gate should reject success if a required check is `untested`,
-`blocked`, lacks current evidence, or has unresolved evaluation objections.
-In audit mode, an evidenced `failed` check linked to an accepted finding counts
-as coverage; discovering a defect does not authorize fixing it. In fix mode,
-the selected fixes' acceptance checks must be `passed` on the final revision.
-Continue with the next viable action while coverage or objections remain within
-budget. If no external gate exists, check the same conditions explicitly and
-disclose that completion was not enforced by the harness. Do not claim the skill
-installed a stop hook or scheduler. Preserve the ledger across context handoffs.
+Table columns: finding, user impact, evidence, smallest proposed change,
+acceptance criteria, status. Label UX hypotheses and simulations.
 
-Require accepted coverage from independent review when available, otherwise the
-disclosed second pass. Stop incompletely at the budget limit, when blockers
-prevent all remaining useful authorized work, or after two consecutive rounds
-without new evidence or a viable new approach. Complete other accessible checks
-before stopping for a blocker. Report the reason and exact remaining work;
-do not call it complete or repeat the same failed interaction.
-
-Deliver one prioritized table with finding, user impact, evidence, smallest
-proposed change, acceptance criteria, and status. Include tested/skipped coverage
-and evaluation limitations. Label UX hypotheses and simulations explicitly.
-Keep reports and media local unless publication is requested; present usable
-evidence in chat through native images or verified links.
-
-## Validate changes to this skill
-
-When a suitable app and permitted test environment are named, trial the revised
-skill on a small journey with known defects and an acceptable comparison. Keep
-the expected issues separate from the evaluator's first-pass brief. Compare
-discovered/missed issues, unsupported findings, and coverage against that record.
-Do not seed defects into shared or customer systems. Refine instructions from
-observed misses when skill edits are authorized. Without an app target, report
-structural or simulated validation as such; it does not prove real-app discovery.
+To change this skill, see [references/maintenance.md](references/maintenance.md).

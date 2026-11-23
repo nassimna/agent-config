@@ -28,7 +28,7 @@ skill if available; do not replace the user's feature map or browser tooling.
 - Choose the smallest decisive checks for the changed contract and likely
   regressions. Compare parent/base and changed behavior when available; without
   a runnable base, distinguish the current failure from its attribution.
-- Use normal user entry points. For web work use agent-browser and its own named
+- Use normal user entry points. For web work prefer agent-browser in its own named
   session; for CLI use the real command and output/exit; for storage/services/
   queues inspect actual responses and state within the allowed target.
 - Capture trigger and stable result, relevant negative/empty/error/persistence
@@ -37,8 +37,8 @@ skill if available; do not replace the user's feature map or browser tooling.
 - Reproduce suspected defects with a command or concrete user sequence and
   compare observed versus required output. Source-only concerns remain labeled
   concerns rather than reproduced bugs. No findings is a valid result.
-- Add or update relevant tests and run focused checks under the user's standing
-  test authorization; respect explicit task restrictions. Use safe temporary
+- Add or update relevant tests and run focused checks; respect explicit task
+  restrictions. Use safe temporary
   probes when sufficient; never inject defects into shared data.
 
 ## Validity and handoff

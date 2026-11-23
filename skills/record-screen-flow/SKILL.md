@@ -11,7 +11,7 @@ Resolve `scripts/record-screen-flow` relative to this file and use it to manage 
 
 For browser and app demos, use an isolated background display with its own browser, pointer, and keyboard focus. Set this up automatically; the user should not need to repeat this preference. A private/incognito window on the user's active desktop does not provide this isolation.
 
-- Respect an explicitly requested browser and the host's browser-tool rules. Verify that its capture supports the required cursor and pacing; explain any capability mismatch before substituting a different browser.
+- Drive browser walkthroughs with `agent-browser`. Follow its installed skill and launch a dedicated headed session on the recording display. Use the X11 recorder below for the video. Respect an explicitly requested browser and the host's browser-tool rules. Verify that its capture supports the required cursor and pacing; explain any capability mismatch before substituting a different browser.
 - When using a virtual X11 display, resolve an available display and bind the browser, every input command, and the recorder to that same display explicitly. Never let an omitted `DISPLAY` or recorder option fall back to the user's desktop.
 - Do not move the user's physical cursor, steal keyboard focus, rearrange their windows, or capture their desktop unless they explicitly request that surface. Being AFK is not permission to use it. If isolation is unavailable, report the limitation instead of silently using the active desktop.
 - Stop the task's recorder, isolated browser, and virtual display when finished; preserve shared services and requested review previews.

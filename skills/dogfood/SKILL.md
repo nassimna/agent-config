@@ -26,9 +26,8 @@ that pages load.
 
 ## Choose the browser
 
-- Use `agent-browser` unless the user explicitly requests another browser
-  integration. Load its skill and current CLI instructions before operating it.
-- If blocked, report the blocker instead of silently switching tools.
+- Prefer `agent-browser`; load its skill and current CLI instructions before
+  operating it.
 - Reuse an existing authenticated session when allowed; do not assume a fresh
   browser profile shares the user's cookies.
 

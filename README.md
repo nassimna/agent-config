@@ -52,11 +52,10 @@ points there. Spend words accordingly.
 
 ## Folio HTML artifacts
 
-`html-artifact` creates and checks the review page, then uses
-`preserve-html-artifact` to upload it to [Folio](https://folio.devexa.net).
-New artifacts are private Previews, grouped by project and thread. Completed
-revisions update the same URL; the owner's Keep status and sharing choice stay
-intact. Explicit local-only or public-sharing instructions take precedence.
+`html-artifact` creates and checks a portable HTML file. To send a specific
+artifact or revision to [Folio](https://folio.devexa.net), explicitly request
+a Folio upload. The `folio-upload` skill creates a private Preview or updates
+the artifact at its existing URL, preserving the owner's sharing choice.
 
 The uploader needs Python 3.9 or newer, Git, and HTTPS access to Folio. Sign in,
 verify your email, and create a revocable token in **Settings → Upload tokens**.
@@ -74,8 +73,8 @@ automatically; start a fresh conversation if an agent cached older instructions.
 The helper keeps `.folio-sync.json` beside the HTML to preserve its identity
 across revisions and adds local Git ignore rules for the manifest. Keep the
 manifest with the editable source; do not commit it. See the
-[sync skill](skills/preserve-html-artifact/SKILL.md) for upload commands, bundled
-assets and conflict handling.
+[Folio reference](skills/folio-upload/references/folio.md) for setup, bundle
+limits and conflict handling.
 
 ## Safety
 

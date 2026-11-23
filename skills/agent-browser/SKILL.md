@@ -1,6 +1,6 @@
 ---
 name: agent-browser
-description: Use agent-browser for all browser automation, including UI validation, QA, browser research, recordings, and supported Electron apps. Use another browser integration only when the user explicitly requests it.
+description: Browser automation CLI. Preferred for browser validation, UI checks, QA, browser research, recordings, and supported Electron apps.
 allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*)
 ---
 
@@ -8,11 +8,6 @@ allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*)
 
 Fast browser automation CLI for AI agents. Chrome/Chromium via CDP with
 accessibility-tree snapshots and compact `@eN` element refs.
-
-Use this tool even when T3 preview or Chrome extension tools are available.
-Nassim's shared guidance explicitly selects agent-browser; where host routing
-allows a user-requested browser, apply that selection to checks and delegates too.
-If blocked, report the blocker; do not silently switch browser integrations.
 
 Install: `npm i -g agent-browser && agent-browser install`
 
@@ -44,15 +39,6 @@ agent-browser skills get agentcore         # AWS Bedrock AgentCore cloud browser
 
 Run `agent-browser skills list` to see everything available on the
 installed version.
-
-## Why agent-browser
-
-- Fast native Rust CLI, not a Node.js wrapper
-- Works with any AI agent (Cursor, Claude Code, Codex, Continue, Windsurf, etc.)
-- Chrome/Chromium via CDP with no Playwright or Puppeteer dependency
-- Accessibility-tree snapshots with element refs for reliable interaction
-- Sessions, authentication vault, state persistence, video recording
-- Specialized skills for Electron apps, Slack, exploratory testing, cloud providers
 
 ## Observability Dashboard
 

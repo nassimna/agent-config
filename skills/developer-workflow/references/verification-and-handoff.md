@@ -59,7 +59,7 @@ isolated task-owned state. An unexecuted recipe is a draft. Never seed a defect
 or bad data into shared/customer systems.
 
 ## Receipt and resume
-Use the global short receipt. Include scope of cleanup and affected rechecks.
+If cleanup changed the diff, mention the affected rechecks.
 For incomplete or multi-session work, keep accepted/excluded scope, decisions
 with reasons, current files/revision, valid versus stale checks, resource owners,
 remaining blockers and the exact next action. Verify inherited claims against

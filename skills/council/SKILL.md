@@ -1,69 +1,61 @@
 ---
 name: council
-description: Get independent Claude and GPT reviews and reconcile their findings. Use for an explicit council request or a workflow requiring two-model review, not routine checks or publishing an already reviewed PR.
+description: Trigger this if the user says 'council'.
 ---
 
 # Council
 
-Use exactly two members: one Claude model and one GPT model. Resolve the latest
-available suitable flagship in each family from the current model catalog,
-respecting named models/accounts and configured provider preferences. When
-selecting Sol, default to `gpt-6.2-sol` unless the user requests another version.
-Use high reasoning effort where supported. Never substitute a third family. If
-a member is unavailable, report the gap; one reply is not a completed council.
-Follow the user's same-family quota failover policy without silently changing
-models.
+Before an audit, address outstanding PR comments, fix known issues, and run
+relevant checks. Give council the updated implementation; do not defer known
+fixes until reviews return. If the user wants to discard the implementation
+and explore new ideas, skip fixes to code being replaced.
 
-## Prepare and delegate
+Bring in three delegates to help with the user's request, usually for review
+or feedback. Use one strong model from each of three different providers, at
+extra high (`xhigh`) reasoning effort. If the user's instructions name council members, use
+those. Otherwise pick the latest flagship model from each provider, for
+example Claude Opus, GPT Sol, and Gemini Pro.
 
-Fix known in-scope defects and run relevant checks before requesting a fresh
-review. Freeze the scoped candidate while reviewers read it. Record the intended
-base, candidate head/working diff, goal, exclusions and valid proof with its limits.
+In T3 Code, use `orchestrator_capabilities` to resolve the models, then
+`delegate_task` to start one delegate per model in parallel. Elsewhere, use
+the harness's subagent tools. If you cannot reach three providers, or a named
+member is unavailable, report it instead of substituting.
 
-In T3, resolve capabilities once under current tool rules, then use a new
-`delegate_task` for each member and each round. Put effort/settings in
-`target.options`, and respect the coordinator's concurrency/resource cap. Run the
-two read-only reviews in parallel when capacity permits; otherwise queue them.
-Elsewhere use supported native cross-model routing; report unavailable routing.
-A delegated child must not spawn reviewers: return the review request to its
-parent. Neither reviewer may edit, publish, merge, watch PRs or recruit agents.
+Give each delegate the request and relevant context. For review or feedback,
+keep their work read-only. Collect their responses and summarize the useful
+findings, disagreements, and recommended next steps.
 
-Give both members the same self-contained task, exact diff and surrounding
-contracts, relevant skills and permitted evidence. Ask each for: APPROVE or
-CHANGES, a score out of 10, and evidence-backed findings with stable IDs,
-severity, file/line, user impact and a minimal suggested correction. A source
-review does not establish actual-app or staging verification.
+Do not wait idle. When a result arrives, check its findings against the code
+at once and decide what to fix while the other delegates run. Do not edit
+files while a delegate still reviews the same checkout. If the user's
+instructions mark a delegate as non-blocking, do not wait for it; treat a
+late result as feedback and do not record its score.
 
-## Reconcile and bound the loop
+For a code review, ask each delegate for a score out of 10.
+Count each full review pass as one round.
+A fresh review after fixes starts a new round.
 
-Inspect results against source and actual evidence. Accept real defects in scope;
-explain rejected or out-of-scope findings rather than fixing every suggestion.
-Keep one finding ledger; do not edit the candidate until both reviews stop.
+If the work ends in a pull request, put the results in the PR description.
+Put this section before the model and harness line at the end:
 
-Default maximum: three rounds. First round reviews the full scoped diff; later
-rounds review changed behavior and unresolved findings, carrying forward valid
-unchanged evidence. Request a fresh delegate for each member whose prior verdict
-no longer covers the candidate. Retain a still-valid verdict without inventing a
-new score. Do not run another round for rejected nits or wording-only changes.
-Stop once both members accept the current behavior diff and no actionable finding
-remains. Scores are feedback, not a voting threshold or a substitute for proof.
-Budget exhaustion, silence, provider failure or disputed evidence is not approval:
-record the exact open issue and stop that gate while independent work continues.
+```markdown
+## Council review
 
-## Record
+Rounds: 2
 
-For a PR, put the useful outcome and actual scores in its description, not a
-separate comment. Use actual model names; write `no score` when one was not
-provided. For example (illustrative only):
+| Delegate | Round 1 | Round 2 |
+| --- | --- | --- |
+| Claude Opus | 7/10 | 9/10 |
+| GPT Sol | 8/10 | 10/10 |
+```
 
-| Member | Round 1 | Round 2 | Current verdict |
-| --- | --- | --- | --- |
-| Claude | 7/10 | 9/10 | APPROVE |
-| GPT | 8/10 | 9/10 | APPROVE |
+If a delegate gives no score, write `no score`. Do not invent one.
+If the PR is open, edit the description. Do not post a comment for this.
+If there is no PR, put the same results in the final reply only.
 
-Distinguish new reviews from carried-forward verdicts, and retain disagreements,
-accepted fixes and proof limits in the private receipt. Follow the global concise
-reporting rule; a maintenance coordinator includes the outcome in its daily
-digest. A council grants no implementation, publication or merge permission.
+If you agree with their recommendations, make the changes and request a fresh
+review after. Continue this process until all delegates are satisfied with the
+outcome.
 
-Adapted from [Theo's tstack council](https://github.com/t3dotgg/tstack/blob/main/skills/council/SKILL.md).
+Do not let repeated reviews result in scope creep. It is your job to fight to
+keep scope limited.

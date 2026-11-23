@@ -34,5 +34,4 @@ directly with the capabilities already available.
 
 - Lead with the best match or say clearly that no good match was found.
 - Use short bullets and include the exact install command only when useful.
-- If no suitable skill exists, offer to handle the task directly or create a
-  small custom skill when the workflow is genuinely reusable.
+- If no suitable skill exists, say so and handle the task directly.

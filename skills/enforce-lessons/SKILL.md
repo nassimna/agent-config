@@ -7,7 +7,7 @@ description: Investigate repeated, evidenced agent mistakes and turn an authoriz
 
 Replace recurring correction effort with an enforceable constraint when the
 record supports it. Investigation and recommendation are read-only unless the
-user asks for implementation; naming this skill alone does not authorize edits.
+user asks for implementation.
 
 ## Find a real recurring class
 Read only the relevant task history, commits, review comments and source. Count
@@ -31,8 +31,7 @@ existing rule only needs a concrete example or a corrected trigger.
 
 Implement only within the authorized task. Follow developer-workflow, preserve
 other work and ask before new dependencies. Add or update relevant tests and run
-focused checks under the user's standing test authorization; respect explicit
-task restrictions. Do not commit, publish or modify CI
+focused checks; respect explicit task restrictions. Do not commit, publish or modify CI
 or shared/customer state merely because upstream does so.
 
 ## Prove and report

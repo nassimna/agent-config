@@ -8,7 +8,8 @@ every agent tool; use the current tool's actual capabilities.
 ## Scope and authorization
 
 - Questions, reviews, audits, and diagnosis are read-only unless I ask for
-  changes. For implementation, make the smallest complete change and verify it.
+  changes or invoke a skill that makes them, such as `council`. For
+  implementation, make the smallest complete change and verify it.
 - Take exact labels, named tools, included files, exclusions, and "only"
   literally. Preserve unrelated work; report unrelated problems separately.
 - Keep going when a step doesn't need me. Stop only when you are blocked on my

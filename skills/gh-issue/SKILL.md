@@ -7,7 +7,7 @@ description: "Draft or file concise GitHub issues with current behavior, expecte
 
 Write a short issue that a reader can understand and act on without the chat history.
 Draft requests stay in chat. Requests to open, file, or create an issue authorize
-publishing it; creating this skill does not authorize publishing issues.
+publishing it.
 
 ## Prepare
 
