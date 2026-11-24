@@ -12,6 +12,10 @@ If a project map exists (default `.agents/project-map/README.md`), read its
 index and the relevant flow entries, then check them against the code.
 
 For substantial work, state the plan, scope, and key choices before editing.
+Name the first check that can catch the riskiest regression and what passing
+looks like. Run it as soon as that part works and record the observed result.
+Fix failures before extending the pattern or building dependent work.
+
 When work spans commits, agents, or sessions, or a file contains someone else's
 edits, record the starting revision, task-owned changes, exclusions, and
 pre-existing edits in the affected files.
@@ -21,21 +25,19 @@ read [verification and handoff](references/verification-and-handoff.md).
 
 ## Validate
 
-Exit when:
+Run the smallest check that can prove the changed behavior works. A focused
+test or an isolated probe can cover an internal change. For UI changes, exercise
+the affected interaction in the actual app, using agent-browser for web. Inspect
+screenshots of the changed state at relevant viewports.
 
-- the checks for the changed behavior pass;
-- you used the change as the user does, from the normal entry point: open the
-  app, sign in, navigate, and act, using agent-browser for web journeys; for a
-  CLI, run the real command and check its output and exit code; for a service
-  or stored data, send a real request and read back what changed;
-- you observed the result, relevant side effects, and relevant loading, empty,
-  error, and language states, and wrote what the user sees versus what was
-  expected;
-- for UI changes, screenshots of the key steps and final state at relevant
-  viewports exist and you inspected them.
+Start at the nearest normal entry point that exercises the change. Include
+surrounding steps only when they can expose a regression from the change or the
+task or project requires them. When runtime proof is needed for a CLI or service,
+run the real command or request and verify the result, including affected stored
+data.
 
-Passing tests, a build, mocks, or a responding server never replace this. If
-the journey is blocked, mark it unverified and say why.
+Record the observed result and relevant side effects. If a required check is
+blocked, say what remains unverified and why.
 
 The implementer's verdict never counts as the `independent-verification`
 result, and a verifier never starts another verifier.
