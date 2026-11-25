@@ -98,7 +98,7 @@ every agent tool; use the current tool's actual capabilities.
   even unasked. If that is blocked, mark the UI unverified.
 - For previews, check the exact URL, login, assets, and interactions, and keep
   it available through review or give a portable copy. Always give the
-  Tailscale URL too.
+  Tailscale preview URL, and keep that preview updated with the latest changes.
 - Issues and tasks you write include the problem, required change, references,
   and acceptance criteria, checked against the current code.
 - Rewrite worker reports into your own answer; don't forward them.
